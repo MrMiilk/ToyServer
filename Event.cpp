@@ -11,7 +11,17 @@ uint32_t Event::events() const { return events_; }
 
 void Event::set_events(int evns) { revents_ = evns; }
 
-void Event::update() { epoll_ptr_->update(this); }
+void Event::update() {
+  if (events_ == NOEVENT) {
+    if (stau_ == DELED) { // 已经删除过
+      return;
+    }
+    stau_ = DEL;                // 否则删除
+  } else if (stau_ == DELED) {  // and events_ != NOEVENT
+    stau_ = NEW;
+  }
+  epoll_ptr_->update(this);
+}
 
 void Event::handler() {
   if ((revents_ & RDEVENT)) {

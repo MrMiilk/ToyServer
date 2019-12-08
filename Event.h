@@ -13,6 +13,7 @@ class Event {
   static const int ADDED = 1;
   static const int MOD = 2;
   static const int DEL = 3;
+  static const int DELED = 3;
 
  public:
   explicit Event(int fd, Epoll* epoll_ptr)
@@ -27,33 +28,19 @@ class Event {
   }
   Event(const Event&) = delete;
   Event& operator=(const Event&) = delete;
+  ~Event() {
+    // disable_rd();
+    // disable_wr();
+    events_ = NOEVENT;
+    update();
+  }
 
   /* 对读写状态的更新
    * 如果没有任何事件，Event会从epoll中删除 */
-  void enable_rd() {
-    events_ |= RDEVENT;
-    update();
-  }
-  void enable_wr() {
-    events_ |= WREVENT;
-    update();
-  }
-  void disable_rd() {
-    events_ &= ~RDEVENT;
-    assert(stau_ == ADDED);
-    if (!events_) {
-      stau_ = DEL;
-    }
-    update();
-  }
-  void disable_wr() {
-    events_ &= ~WREVENT;
-    assert(stau_ == ADDED);
-    if (!events_) {
-      stau_ = DEL;
-    }
-    update();
-  }
+  void enable_rd() { events_ |= RDEVENT; }
+  void enable_wr() { events_ |= WREVENT; }
+  void disable_rd() { events_ &= ~RDEVENT; }
+  void disable_wr() { events_ &= ~WREVENT; }
 
   void set_rd_cb(const callback_func_t& func) { read_cb_func_ = func; }
   void set_wr_cb(const callback_func_t& func) { write_cb_func_ = func; }
@@ -63,11 +50,12 @@ class Event {
   int get_fd() const { return fd_; }
   int state() const { return stau_; }
   void added() { stau_ = ADDED; }
+  void del() { stau_ = DELED; }
 
   void handler();
 
- private:
   void update();  // update event in epoll
+ private:
   static const int RDEVENT;
   static const int WREVENT;
   static const int NOEVENT;

@@ -16,8 +16,8 @@ class Epoll {
         events_map_() {}
   ~Epoll() { close(epfd_); }
   void update(Event*);  // call by Event
-  // 
-  void poll(std::vector<std::shared_ptr<Event>>&, int timeout = -1);
+  //
+  void poll(std::vector<Event*>&, int timeout = -1);
 
  private:
   void add_(Event*);
@@ -25,8 +25,9 @@ class Epoll {
   void update_(int, Event*);
   static const int INITEVENTSIZE = 16;
 
-  using event_map_t = std::map<int, std::shared_ptr<Event>>;
+  using event_map_t = std::map<int, Event*>;
   int epfd_;
+  // 借助vector在内存中的排列和数组一致
   std::vector<struct epoll_event> events_;
   event_map_t events_map_;
 };

@@ -26,8 +26,8 @@ Thread::Thread(thread_func_t func, const std::string& name)
     : started_(false),
       joined_(false),
       pthread_id_(0),
-      func_(func),
-      name_(name) {}
+      name_(name),
+      func_(func) {}
 Thread::~Thread() {
   if (!joined_) {
     pthread_detach(pthread_id_);
@@ -47,8 +47,8 @@ void Thread::start() {
 }
 
 void Thread::join() {
-    assert(started_);
-    assert(!joined_);
-    joined_ = true;
-    pthread_join(pthread_id_, nullptr);
+  assert(started_);
+  assert(!joined_);
+  joined_ = true;
+  pthread_join(pthread_id_, nullptr);
 }

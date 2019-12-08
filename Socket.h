@@ -2,6 +2,7 @@
 #define SOCKET_H_INCLUDED
 
 #include <arpa/inet.h>
+#include <strings.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <string>
@@ -20,6 +21,7 @@ inline const struct sockaddr* addr_in2addr(const struct sockaddr_in* addr) {
 inline struct sockaddr* addr_in2addr(struct sockaddr_in* addr) {
   return static_cast<struct sockaddr*>(static_cast<void*>(addr));
 }
+void setNonBlockAndCloseOnExec(int sockfd);
 }  // namespace sock_func
 
 class InetAddress {
@@ -46,12 +48,50 @@ class Socket {
 
   void bind(const InetAddress&);
   void listen();
-  // non-blocking and close-on-exec
   int accept(InetAddress&);
+  // non-blocking and close-on-exec
+  // int accept();
   void set_reuse_addr(bool on = true);
 
  private:
   int socketfd_;
 };
+
+inline void Socket::bind(const InetAddress& addrin) {
+  const struct sockaddr_in& addr = addrin.get();
+  if (::bind(socketfd_, sock_func::addr_in2addr(&addr), sizeof(addr))) {
+    // perror
+  }
+}
+
+inline void Socket::listen() {
+  if (::listen(socketfd_, SOMAXCONN)) {
+    // perror
+  }
+}
+
+inline int Socket::accept(InetAddress& addr_net) {
+  struct sockaddr_in addr_in;
+  bzero(&addr_in, sizeof(addr_in));
+  socklen_t addr_len = sizeof(addr_in);
+  int resfd = ::accept(socketfd_, sock_func::addr_in2addr(&addr_in), &addr_len);
+  sock_func::setNonBlockAndCloseOnExec(resfd);
+  if (resfd >= 0) addr_net.set(addr_in);
+  // else perror(nullptr);
+  return resfd;
+}
+
+// inline int Socket::accept() {
+//   struct sockaddr_in addr_in;
+//   bzero(&addr_in, sizeof(addr_in));
+//   socklen_t addr_len = sizeof(addr_in);
+//   int resfd = ::accept(socketfd_, sock_func::addr_in2addr(&addr_in),
+//   &addr_len); sock_func::setNonBlockAndCloseOnExec(resfd); return resfd;
+// }
+
+inline void Socket::set_reuse_addr(bool on) {
+  int opt = on ? 1 : 0;
+  ::setsockopt(socketfd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+}
 
 #endif  // SOCKET_H_INCLUDED
