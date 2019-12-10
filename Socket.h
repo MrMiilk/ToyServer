@@ -49,6 +49,8 @@ class Socket {
   void bind(const InetAddress&);
   void listen();
   int accept(InetAddress&);
+  // 连接到socket
+  void connect(InetAddress&);
   // non-blocking and close-on-exec
   // int accept();
   void set_reuse_addr(bool on = true);
@@ -79,6 +81,15 @@ inline int Socket::accept(InetAddress& addr_net) {
   if (resfd >= 0) addr_net.set(addr_in);
   // else perror(nullptr);
   return resfd;
+}
+
+inline void Socket::connect(InetAddress& addr_net) {
+  const struct sockaddr_in& addr = addr_net.get();
+  if (::connect(socketfd_, sock_func::addr_in2addr(&addr), sizeof(addr)) != 0) {
+    // perror
+    abort();
+  }
+  sock_func::setNonBlockAndCloseOnExec(socketfd_);
 }
 
 // inline int Socket::accept() {

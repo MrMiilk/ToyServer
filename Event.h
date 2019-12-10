@@ -41,6 +41,8 @@ class Event {
   void enable_wr() { events_ |= WREVENT; }
   void disable_rd() { events_ &= ~RDEVENT; }
   void disable_wr() { events_ &= ~WREVENT; }
+  bool rd_setted() const { return events_ & RDEVENT; }
+  bool wr_setted() const { return events_ & WREVENT; }
 
   void set_rd_cb(const callback_func_t& func) { read_cb_func_ = func; }
   void set_wr_cb(const callback_func_t& func) { write_cb_func_ = func; }

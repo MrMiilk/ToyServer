@@ -23,34 +23,34 @@ void ThreadPool::stop() {
                 std::bind(&Thread::join, std::placeholders::_1));
 }
 
-void ThreadPool::run(std::unique_ptr<Task> task_uptr) {
+void ThreadPool::run(Task task) {
   assert(running_);
   if (threads_.empty()) {
-    task_uptr->run();
+    task();
   } else {
     MutexLockGuard lock(mutex_);
-    task_queue_.emplace(task_uptr.release());
+    task_queue_.emplace(task);
     cond_.notify();
   }
 }
 
-Task* ThreadPool::take_() {
-  Task* task = nullptr;
+ThreadPool::Task ThreadPool::take_() {
+  Task task;
   MutexLockGuard lock(mutex_);
   while (task_queue_.empty() && running_) {
     cond_.wait();
   }
   if (!task_queue_.empty()) {
-    task = task_queue_.front().release();
+    task = task_queue_.front();
     task_queue_.pop();
   }
-  return task;
+  return std::move(task);
 }
 
 void ThreadPool::run_() {
   // try
   while (running_) {
-    Task* t = take_();
-    if (t) t->run();
+    Task t = take_();
+    if (t) t();
   }
 }
