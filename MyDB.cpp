@@ -56,7 +56,7 @@ bool MyDB::execSQL(string sql) {
         }
         cout<<endl;
     }*/
-
+    res.clear();
     for (i = 0; i < mysql_field_count(connection); ++i)  //结果集的列数
     {
       row = mysql_fetch_row(result);  //检索一个结果集合的下一行
@@ -171,6 +171,14 @@ list<string> MyDB::getUsrinfo(string username) {
   return res;
 }
 
+// 获取用户密码
+string MyDB::getPswd(string username)
+{
+  string s = "select password from Users where username='" +username+"'";
+  execSQL(s);
+  return res.back();
+}
+
 // 更改用户密码
 void MyDB::updatePswd(string username, string pswd) {
   string s = "update Users set password='" + pswd + "' where username='" +
@@ -235,6 +243,15 @@ bool MyDB::ifexistUsrFile(string username, int id) {
     return false;
   else
     return true;
+}
+
+// 返回文件夹全部文件
+list<string> MyDB::getAllFile(string username)
+{
+  string foldername = getFoldername(username);
+  string s = "select * from "+foldername;
+  execSQL(s);
+  return res;
 }
 
 // int main()

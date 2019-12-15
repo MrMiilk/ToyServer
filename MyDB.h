@@ -33,12 +33,13 @@ class MyDB {
   void deleteUsr(string username);  //删除用户，同时删除个人文件夹
   bool ifexistUsr(string username);               //用户是否已存在
   list<string> getUsrinfo(string username);       //获取用户信息
+  string getPswd(string username);//获取用户密码
   void updatePswd(string username, string pswd);  //更改用户密码
 
   // 个人文件夹(文件标识符，文件名，所属用户，路径，大小，类型，时间)
   void createFolder(string foldername);   //创建该用户的文件夹
   void deleteFolder(string foldername);   //删除该个人文件夹
-  string getFoldername(string username);  //获取该用户个人文件夹名称
+  string getFoldername(string username);  //通过用户名获取该用户个人文件夹名称
   void addUsrFile(int id, string filename, string username, string path,
                   int size, string type, string time);  //该用户添加一个文件
   void deleteUsrFile(string username,
@@ -46,6 +47,7 @@ class MyDB {
   list<string> getUsrFile(string username,
                           int id);  //获取该用户该文件（id还是name?）
   bool ifexistUsrFile(string username, int id);  //该用户文件夹是否存在该文件
+  list<string> getAllFile(string username);//获取该个人文件夹内全部文件
 
  private:
   MYSQL *connection;  // MySQL对象
