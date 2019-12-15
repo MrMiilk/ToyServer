@@ -28,8 +28,9 @@ Thread::Thread(thread_func_t func, const std::string& name)
       pthread_id_(0),
       name_(name),
       func_(func) {}
+
 Thread::~Thread() {
-  if (!joined_) {
+  if (started_ & !joined_) {
     pthread_detach(pthread_id_);
   }
 }

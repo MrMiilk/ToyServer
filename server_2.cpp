@@ -1,3 +1,7 @@
+/*
+ * sql password: 123456
+ */
+
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
@@ -12,12 +16,16 @@
 #include "Event.h"
 #include "FTPserver.h"
 #include "Queue.h"
-#include "RSA_.h"
+// #include "RSA_.h"
+#include "MsgPaser.h"
+#include "SQL.h"
 #include "Socket.h"
 #include "TCPconn.h"
 #include "TCPserver.h"
 #include "Thread.h"
 #include "ThreadPool.h"
+
+#include <iostream>
 
 using TCPconn_sptr_t = TCPserver::TCPconn_sptr_t;
 using std::placeholders::_1;
@@ -36,9 +44,10 @@ enum RequestType { RG = 1, LG = 2, FILE_GET = 10 };
 // ThreadPool thr_pool;
 int new_cli_fd;
 // Queue<std::unique_ptr<struct thr_info_t>> queue;
-Queue<TCPconn_sptr_t> queue;
+Queue<TCPconn_sptr_t> TCPConnQueue;
 ThreadPool thread_pool;
 FTPserver ftp_server;
+UserSQL userSql("127.0.0.1", "root", "123456", "Users");
 
 // 增加非对称加密
 // 增加加密解密线程池
@@ -52,31 +61,42 @@ int main() {
   t1.start();
   t2.start();
   t3.start();
-  t4.start();
+  // t4.start();
   thread_pool.start(3);
   t1.join();
   t2.join();
   t3.join();
-  t4.join();
+  // t4.join();
 }
 
 // put into queue
 void accept_cli(TCPconn_sptr_t server_ptr) {
   uint64_t i = 1;
-  queue.put(server_ptr);
+  TCPConnQueue.put(server_ptr);
   write(new_cli_fd, &i, sizeof(uint64_t));
 }
 
 void cli_regist(TCPconn_sptr_t conn_sptr, const std::string& msg) {
   // 解密
   // 数据库
+  auto msgBag = MsgPaser::parse(msg);
+  if (!userSql.userExist(msgBag[1])) {
+    userSql.addUser(msgBag[1], msgBag[2], ".");
+  } else {
+    std::cout << "user exist" << std::endl;
+  }
   conn_sptr->send(std::move(msg));
 }
 
 void cli_login(TCPconn_sptr_t conn_sptr, const std::string& msg) {
   // 解密
   // 数据库
-  conn_sptr->send(std::move(msg));
+  auto msgBag = MsgPaser::parse(msg);
+  if (!userSql.userExist(msgBag[1])) {
+    conn_sptr->send(std::move("没有这个用户"));
+  } else {
+    conn_sptr->send(std::move("logined"));
+  }
 }
 
 void cli_get_file(TCPconn_sptr_t conn_sptr, const std::string& msg) {
@@ -84,6 +104,7 @@ void cli_get_file(TCPconn_sptr_t conn_sptr, const std::string& msg) {
   // 从数据库获取如何请求ftp
   // 向ftp发送通知
   ftp_server.send(std::move(msg));
+  // 回复客户端如何请求ftp
 }
 
 // 客户端请求分发
@@ -107,8 +128,8 @@ void cli_msg_process(std::set<TCPconn_sptr_t>* conns, TCPconn_sptr_t conn_sptr,
         break;
       case RequestType::FILE_GET:  // 获取文件,FIXME: 用函数处理
                                    // 包裹一层数据库操作
-        thread_pool.run(
-            std::bind(&FTPserver::send, &ftp_server, std::move(msg)));
+        // thread_pool.run(
+        //     std::bind(&FTPserver::send, &ftp_server, std::move(msg)));
         break;
       default:
         // error
@@ -121,7 +142,7 @@ void cli_add_to_epoll(std::set<TCPconn_sptr_t>* conns, Epoll* epfd_ptr) {
   // get info from queue
   // create new TCP
   uint64_t i = 0;
-  TCPconn_sptr_t conn_sptr(queue.get_withlock());
+  TCPconn_sptr_t conn_sptr(TCPConnQueue.get_withlock());
   // 只有获取到queue中的内容才能读
   // FIXME: eventfd多线程安全?
   if (conn_sptr == nullptr) return;
