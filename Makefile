@@ -1,26 +1,33 @@
 CXX = g++
 DEBUG = -g
-CXXFLAGS = -Wall $(DEBUG) -std=c++11 -pthread
-LDFLAGS = -pthread
-objects = server_2.o MutexLock.o Condition.o Socket.o Event.o\
-	Queue.o Thread.o ThreadPool.o Epoll.o TCPconn.o TCPserver.o FTPserver.o
+CXXFLAGS = -Wall -O0 -std=c++11 -I ./
+LDFLAGS = -lprotobuf -L/usr/lib/mysql -lmysqlclient -lboost_system -lboost_filesystem -pthread
+BINARIES = server
 
-server: $(objects)
-	$(CXX) $(LDFLAGS) -o server $(objects)
+basefiles = $(filter %.cpp,$(shell ls ./base/))
+basefiles_ = $(addprefix ./base/,$(basefiles))
+dbfiles = $(filter %.cpp,$(shell ls ./db/))
+dbfiles_ = $(addprefix ./db/,$(dbfiles))
+ftpfiles = $(filter %.cpp,$(shell ls ./ftp/))
+ftpfiles_ = $(addprefix ./ftp/,$(ftpfiles))
+netfiles = $(filter %.cpp,$(shell ls ./net/))
+netfiles_ = $(addprefix ./net/,$(netfiles))
+threadfiles = $(filter %.cpp,$(shell ls ./thread/))
+threadfiles_ = $(addprefix ./thread/,$(threadfiles))
+protosfiles = $(filter %.cpp,$(shell ls ./protos/))
+protosfiles_ = $(addprefix ./protos/,$(protosfiles))
+encryptfiles = $(filter %.cpp,$(shell ls ./encrypt/))
+encryptfiles_ = $(addprefix ./encrypt/,$(encryptfiles))
 
-server_2.o:  Epoll.h Event.h Queue.h Socket.h TCPconn.h TCPserver.h Thread.h ThreadPool.h RSA_.h FTPserver.h
+BASE_SRC = $(basefiles_) $(dbfiles_) $(ftpfiles_) $(netfiles_)\
+	 $(threadfiles_) $(protosfiles_) $(encryptfiles_)
 
-# MutexLock.o: 
-Condition.o :MutexLock.h
-# Socket.o :
-Event.o: Epoll.h
-Queue.o : MutexLock.h Condition.h
-# Thread.o :
-ThreadPool.o : MutexLock.h Condition.h Thread.h
-Epoll.o : Event.h
-TCPconn.o : Event.h Socket.h Queue.h
-TCPserver.o : Event.h Socket.h TCPconn.h
-FTPserver.o : Epoll.h Event.h Queue.h Socket.h TCPconn.h
+all: $(BINARIES)
+
+$(BINARIES):
+	$(CXX) $(CXXFLAGS) $(DEBUG) -o $@ $(BASE_SRC) $(filter %.cpp,$^) $(LDFLAGS)
+
+server: server.cpp
 
 clean_o :
-	rm $(objects)
+	rm $(BINARIES)

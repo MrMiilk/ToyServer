@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package protos;
+
+message UserInfo {
+    string name = 1;
+    string passwd = 2;
+}
+
+message FileInfo {
+    string fileName = 1;
+    string path = 2;
+    uint32 size = 3; 
+    string tp = 4;
+}
+
+message UserReq {
+    enum reqTp {
+        regist = 0;
+        login = 1;
+        getFile = 2;
+        uploadFile = 3;
+        mkDir = 4;
+    }
+    reqTp tp = 1;
+    UserInfo userInfo = 2;
+    FileInfo fileinfo = 3;
+}
