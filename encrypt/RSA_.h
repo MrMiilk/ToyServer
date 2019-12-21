@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-namespace encrypt {
+namespace encrypt_ {
 
 class RSAEncoder {
  public:
@@ -88,6 +88,6 @@ class RSADecoder {
   RSA* pRSAPrivateKey;
 };
 
-}  // namespace encrypt
+}  // namespace encrypt_
 
 #endif  // RSACODER_H_INCLUDED

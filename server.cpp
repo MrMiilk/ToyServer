@@ -40,6 +40,8 @@ void cli_thr();
 void ftp_thr();
 void accept_cli(TCPconn_sptr_t server_ptr);
 void cli_add_to_epoll(std::set<TCPconn_sptr_t>* conns, Epoll* epfd_ptr);
+void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq);
+void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq);
 
 // request type
 enum RequestType { RG = 1, LG = 2, FILE_GET = 10 };
@@ -51,7 +53,7 @@ Queue<TCPconn_sptr_t> TCPConnQueue;
 ThreadPool thread_pool;
 FTPserver ftp_server;
 UserSQL userSql("127.0.0.1", "root", "123456", "Users");
-encrypt::RSADecoder rsaDecoder("./base/rsa_private_key.pem");
+encrypt_::RSADecoder rsaDecoder("./base/rsa_private_key.pem");
 
 // 增加非对称加密
 // 增加加密解密线程池
@@ -80,30 +82,35 @@ void accept_cli(TCPconn_sptr_t server_ptr) {
   write(new_cli_fd, &i, sizeof(uint64_t));
 }
 
-void cli_regist(TCPconn_sptr_t conn_sptr, const std::string& msg) {
-  // 解密
-  // 数据库
-  // auto msgBag = MsgPaser::parse(msg);
-  // if (!userSql.userExist(msgBag[1])) {
-  //   userSql.addUser(msgBag[1], msgBag[2], ".");
-  //   conn_sptr->send(std::move("successful"));
-  // } else {
-  //   std::cout << "user exist" << std::endl;
-  //   conn_sptr->send(std::move("user exist"));
-  // }
+void userMsgHandle(TCPconn_sptr_t conn_sptr, const std::string& msg) {
   auto userReq = Parser::parseUserMsg(msg);
-  if (!userSql.userExist(userReq.userinfo.name)) {
+  switch (userReq.tp()) {
+    case protos::UserReq::regist:
+      cli_regist(conn_sptr, userReq);
+      break;
+    case protos::UserReq::login:
+      cli_login(conn_sptr, userReq);
+      break;
+    case protos::UserReq::getFile:
+      break;
+    case protos::UserReq::uploadFile:
+      break;
+  }
+}
+
+void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  if (!userSql.userExist(userReq.userinfo().name())) {
     // 解密
-    std::string passwd(rsaDecoder.decode(userReq.userinfo.passwd));
+    std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
     // userReq.userinfo.name 作为根目录名
-    userSql.addUser(userReq.userinfo.name, passwd, userReq.userinfo.name);
+    userSql.addUser(userReq.userinfo().name(), passwd, userReq.userinfo().name());
     conn_sptr->send("successful");
   } else {
     conn_sptr->send(std::move("user exist"));
   }
 }
 
-void cli_login(TCPconn_sptr_t conn_sptr, const std::string& msg) {
+void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   // 解密
   // 数据库
   // auto msgBag = MsgPaser::parse(msg);
@@ -122,13 +129,12 @@ void cli_login(TCPconn_sptr_t conn_sptr, const std::string& msg) {
   //     conn_sptr->send("pwd error");
   //   }
   // }
-  auto userReq = Parser::parseUserMsg(msg);
-  if (!userSql.userExist(userReq.userinfo.name)) {
+  if (!userSql.userExist(userReq.userinfo().name())) {
     conn_sptr->send("没有这个用户");
   } else {
     // 解密
-    std::string passwd(rsaDecoder.decode(userReq.userinfo.passwd));
-    if (userSql.getPwd(userReq.userinfo.name).compare(passwd) == 0) {
+    std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
+    if (userSql.getPwd(userReq.userinfo().name()).compare(passwd) == 0) {
       // FIXME: 返回序列化的两个表
       conn_sptr->send("login success");
     } else {
@@ -153,39 +159,7 @@ void cli_msg_process(std::set<TCPconn_sptr_t>* conns, TCPconn_sptr_t conn_sptr,
     conns->erase(conn_sptr);
   } else {
     // handle
-    auto userReq = Parser::parseUserMsg(msg);
-    switch (userReq.tp) {
-      case protos::UserReq::regist:
-        thread_pool.run(std::bind(cli_regist, conn_sptr, std::move(msg)));
-        break;
-      case protos::UserReq::login:
-        thread_pool.run(std::bind(cli_login, conn_sptr, std::move(msg)));
-        break;
-      case protos::UserReq::getFile:
-        break;
-      case protos::UserReq::uploadFile:
-        break;
-    }
-    // char tag[5];
-    // strncpy(tag, msg.c_str(), 4);
-    // tag[4] = 0;
-    // int tp_r = atoi(tag);
-    // switch (tp_r) {
-    //   case RequestType::RG:  // 注册
-    //     thread_pool.run(std::bind(cli_regist, conn_sptr, std::move(msg)));
-    //     break;
-    //   case RequestType::LG:  // 登录
-    //     thread_pool.run(std::bind(cli_login, conn_sptr, std::move(msg)));
-    //     break;
-    //   case RequestType::FILE_GET:  // 获取文件,FIXME: 用函数处理
-    //                                // 包裹一层数据库操作
-    //     // thread_pool.run(
-    //     //     std::bind(&FTPserver::send, &ftp_server, std::move(msg)));
-    //     break;
-    //   default:
-    //     // error
-    //     break;
-    // }
+    thread_pool.run(std::bind(userMsgHandle, conn_sptr, std::move(msg)));
   }
 }
 // 新用户连接

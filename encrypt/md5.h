@@ -7,7 +7,7 @@
  * compile with -lcrypto
  */
 
-namespace encrypt {
+namespace encrypt_ {
 
 std::string MD5(const std::string& src) {
   MD5_CTX ctx;

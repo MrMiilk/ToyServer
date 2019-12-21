@@ -1,7 +1,7 @@
 CXX = g++
 DEBUG = -g
 CXXFLAGS = -Wall -O0 -std=c++11 -I ./
-LDFLAGS = -lprotobuf -L/usr/lib/mysql -lmysqlclient -lboost_system -lboost_filesystem -pthread
+LDFLAGS = -lprotobuf -lcrypto -L/usr/lib/mysql -lmysqlclient -lboost_system -lboost_filesystem -pthread
 BINARIES = server
 
 # basefiles = $(filter %.cpp,$(shell ls ./base/))
