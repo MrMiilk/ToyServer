@@ -4,8 +4,8 @@ CXXFLAGS = -Wall -O0 -std=c++11 -I ./
 LDFLAGS = -lprotobuf -L/usr/lib/mysql -lmysqlclient -lboost_system -lboost_filesystem -pthread
 BINARIES = server
 
-basefiles = $(filter %.cpp,$(shell ls ./base/))
-basefiles_ = $(addprefix ./base/,$(basefiles))
+# basefiles = $(filter %.cpp,$(shell ls ./base/))
+# basefiles_ = $(addprefix ./base/,$(basefiles))
 dbfiles = $(filter %.cpp,$(shell ls ./db/))
 dbfiles_ = $(addprefix ./db/,$(dbfiles))
 ftpfiles = $(filter %.cpp,$(shell ls ./ftp/))
