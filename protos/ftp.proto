@@ -13,7 +13,7 @@ message FtpFileInfo {
     uint32 size = 4;
 }
 
-message FtpReq {
+message FtpQury {
     enum Type {
         DOWNLOAD = 0;
         UPLOAD = 1;

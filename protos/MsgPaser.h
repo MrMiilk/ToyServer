@@ -2,26 +2,21 @@
 #define MSGPASER_H_INCLUDED
 
 #include <string>
-#include <vector>
+#include "ftp.pb.h"
 #include "userReq.pb.h"
 
 namespace Parser {
 
-protos::UserReq prseUserMsg(const std::string& msg) {
-  protos::UserReq req;
-  if (!req.ParseFromString(msg)) {
-    printf("prseUserMsg: ParseFromString error");
-  }
-  return req;
-}
+protos::UserReq parseUserMsg(const std::string& msg);
 
-const std::string& encodeUserMsg(const protos::UserReq& req) {
+protos::FtpQury parseFtpQury(const std::string& msg);
+
+template <typename T>
+const std::string& encode(const T& req) {
   std::string msg;
   req.SerializeToString(&msg);
   return msg;
 }
-
-
 
 }  // namespace Parser
 
