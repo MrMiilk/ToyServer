@@ -21,6 +21,8 @@ message UserReq {
         getFile = 2;
         uploadFile = 3;
         mkDir = 4;
+        delFile = 5;
+        delFolder = 6;
     }
     reqTp tp = 1;
     UserInfo userInfo = 2;

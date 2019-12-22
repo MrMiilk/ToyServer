@@ -1,4 +1,6 @@
 #include "FTPserver.h"
+#include "protos/ftp.pb.h"
+#include "protos/MsgPaser.h"
 
 // FTPserver 即为ftp部分的线程族 管理ftp的连接
 // 自己监听读事件从而处理可能的关闭
@@ -18,7 +20,17 @@ void FTPserver::add(const std::vector<InetAddress>& ftp_addrs) {
                              std::placeholders::_2));
     tmp->establish(true, true);
     servers_.emplace(tmp);
-    send("Hello ftp!");  // 第一条验证消息
+    // ==================================================
+    protos::FtpQury aliveQ;
+    aliveQ.set_key("Hello");
+    protos::FtpFileInfo* aliveQFInfo = aliveQ.mutable_fileinfo();
+    aliveQFInfo->set_name("None");
+    aliveQFInfo->set_path("/");
+    aliveQFInfo->set_fid(0);
+    aliveQFInfo->set_size(0);
+    aliveQ.mutable_userinfo()->set_name("hello");
+    send(Parser::encode(aliveQ));  // 第一条验证消息
+    // ==================================================
     printf("connected\n");
   }
 }
@@ -36,7 +48,7 @@ void FTPserver::run() {
 
 void FTPserver::send(const std::string& msg) {
   for (auto& s : servers_) {
-    s->send(std::move(msg));
+    s->send(msg);
   }
 }
 void FTPserver::onReadble(TCPconn::conn_sptr_t ftp_cnn_sptr,

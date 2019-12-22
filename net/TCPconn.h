@@ -36,7 +36,7 @@ class TCPconn : public std::enable_shared_from_this<TCPconn> {
   // TODO: call when write complete
   // void set_wr_cb(const wr_cb_func_t& cb) { rd_cb_ = cb; }
   void send(const std::string& msg) {
-    msgs_.put(std::move(msg));
+    msgs_.put(msg);
     enable_wr();
   }
   // void set_context(void* c) { context_ = c; }

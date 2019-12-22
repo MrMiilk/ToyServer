@@ -12,7 +12,7 @@ protos::UserReq parseUserMsg(const std::string& msg);
 protos::FtpQury parseFtpQury(const std::string& msg);
 
 template <typename T>
-const std::string& encode(const T& req) {
+std::string encode(const T& req) {
   std::string msg;
   req.SerializeToString(&msg);
   return msg;

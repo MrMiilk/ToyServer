@@ -67,12 +67,12 @@ int main() {
   t1.start();
   t2.start();
   t3.start();
-  // t4.start();
+  t4.start();
   thread_pool.start(3);
   t1.join();
   t2.join();
   t3.join();
-  // t4.join();
+  t4.join();
 }
 
 // put into queue
@@ -182,7 +182,7 @@ void cli_add_to_epoll(std::set<TCPconn_sptr_t>* conns, Epoll* epfd_ptr) {
 }
 
 void ftp_thr() {
-  std::vector<InetAddress> ftp_addr({InetAddress("47.101.135.201", 10002)});
+  std::vector<InetAddress> ftp_addr({InetAddress("193.112.153.150", 10003)});
   ftp_server.add(ftp_addr);
   ftp_server.run();
 }
