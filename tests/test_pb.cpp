@@ -3,8 +3,8 @@
 #include "protos/userReq.pb.h"
 
 int main() {
-  protos::FileInfo fileInfo;
-  protos::UserInfo userInfo;
+  // protos::FileInfo fileInfo;
+  // protos::UserInfo userInfo;
   protos::UserReq req;
 
   auto* req_f_info = req.mutable_fileinfo();

@@ -18,11 +18,11 @@ message UserReq {
     enum reqTp {
         regist = 0;
         login = 1;
-        getFile = 2;
-        uploadFile = 3;
-        mkDir = 4;
-        delFile = 5;
-        delFolder = 6;
+        downloadFile = 2;   // 下载文件
+        uploadFile = 3;     // 上传文件
+        mkDir = 4;          // mkdir
+        delFile = 5;        // 删除文件
+        delFolder = 6;      // 删除文件夹
     }
     reqTp tp = 1;
     UserInfo userInfo = 2;

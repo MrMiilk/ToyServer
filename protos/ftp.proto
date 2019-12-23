@@ -2,23 +2,54 @@ syntax = "proto3";
 
 package protos;
 
+// compile with: protoc --cpp_out=./ ./userReq.proto ./ftp.proto
+
+// ====================================================================
+//      服务器发送给ftp数据报
+// ====================================================================
+
 message FtpUserInfo {
     string name = 1;
 }
 
-message FtpFileInfo {
+// 上传下载使用 
+message FtpFileInfo { 
     string name = 1;
     string path = 2;
     uint32 fid = 3;
     uint32 size = 4;
 }
+// 删除文件 需要fid和用户名
+message FtpFileList {
+    repeated uint32 fid = 1;    // 要删除的文件列表
+}
 
 message FtpQury {
     enum Type {
-        DOWNLOAD = 0;
-        UPLOAD = 1;
+        DOWNLOAD = 0;   // 用户请求下载
+        UPLOAD = 1;     // 用户请求上传
+        DELTEDFILES = 2; // 删除文件
+        CONNECT = 3;    // 握手
     }
-    FtpUserInfo userInfo = 1;
-    FtpFileInfo fileInfo = 2;
-    string key = 3;
+    Type tp = 1;
+    string key = 2;
+    FtpUserInfo userInfo = 3;
+    FtpFileInfo fileInfo = 4;
+    FtpFileList fileList = 5;
+}
+// ====================================================================
+//      ftp发送给server数据报
+// ====================================================================
+
+// 一开始插入 获取fid
+message FtpReq {
+    enum Type {
+        //INSERT = 0;   // 上传成功 
+        DELATED = 0;    // 上传失败 删除数据库记录
+        CONNECT = 3;    // 握手
+    }
+    Type tp = 1;
+    string userName = 2;
+    uint32 fid = 3;
+    // string key = 4;
 }
