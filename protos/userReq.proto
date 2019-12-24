@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package protos;
 
+// ====================================================================
+//      user发送给server数据报
+// ====================================================================
+
 message UserInfo {
     string name = 1;
     string passwd = 2;
@@ -12,19 +16,42 @@ message FileInfo {
     string path = 2;
     uint32 size = 3; 
     string tp = 4;
+    string time = 5;
+    uint32 iflast = 6;
+    uint32 fid = 7;
 }
 
 message UserReq {
     enum reqTp {
-        regist = 0;
-        login = 1;
-        downloadFile = 2;   // 下载文件
-        uploadFile = 3;     // 上传文件
-        mkDir = 4;          // mkdir
-        delFile = 5;        // 删除文件
-        delFolder = 6;      // 删除文件夹
+        REGIST = 0;
+        LOGIN = 1;
+        DOENLOAD = 2;       // 下载文件
+        UPLOAD = 3;         // 上传文件
+        MKDIR = 4;          // mkdir
+        DELFILE = 5;        // 删除文件
+        DELFOLDER = 6;      // 删除文件夹
     }
     reqTp tp = 1;
     UserInfo userInfo = 2;
     FileInfo fileinfo = 3;
+}
+// ====================================================================
+//      server发送给user数据报
+// ====================================================================
+
+message FtpNode {
+    string ip = 1;
+    uint32 port = 2;
+}
+
+message UserQury {
+    enum Type{
+        REGIST = 0;
+        LOGIN = 1;
+        QURYFTP = 4;    // 下载和请求ftp的node
+        ELSE = 5;       // 删除添加文件夹等是否成功
+    }
+    Type tp = 1;
+    bool success = 2;     // 是否成功
+    repeated FtpNode ftps = 5;
 }

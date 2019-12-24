@@ -12,20 +12,17 @@
 /* 管理和FTP servers 的连接 */
 class FTPserver {
  public:
-  FTPserver() : servers_(), msgs_(), ep_() {}
+  FTPserver() : ep_(), servers_(), msgs_() {}
 
   void add(const std::vector<InetAddress>&);
   void send(const std::string&);
   void run();
 
-
  private:
   void onReadble(TCPconn::conn_sptr_t, const std::string&);
-  //   void onWritable(TCPconn::conn_sptr_t, const std::string&);
-  
+  Epoll ep_;    // 用于ftp监听
   std::set<std::shared_ptr<TCPconn>> servers_;
   Queue<std::string> msgs_;
-  Epoll ep_;
 };
 
 #endif  // FTPSERVER_H_INCLUDED

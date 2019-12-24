@@ -26,10 +26,10 @@ message FtpFileList {
 
 message FtpQury {
     enum Type {
-        DOWNLOAD = 0;   // 用户请求下载
-        UPLOAD = 1;     // 用户请求上传
-        DELTEDFILES = 2; // 删除文件
-        CONNECT = 3;    // 握手
+        DOWNLOAD = 0;       // 用户请求下载
+        UPLOAD = 1;         // 用户请求上传
+        DELTEDFILES = 2;    // 删除文件
+        CONNECT = 3;        // 握手
     }
     Type tp = 1;
     string key = 2;

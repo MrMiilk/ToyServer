@@ -13,7 +13,9 @@
 #include <iostream>
 #include <memory>
 #include <set>
+#include <utility>
 #include <vector>
+#include "db/FileSQL.h"
 #include "db/SQL.h"
 #include "encrypt/RSA_.h"
 #include "encrypt/md5.h"
@@ -53,7 +55,10 @@ Queue<TCPconn_sptr_t> TCPConnQueue;
 ThreadPool thread_pool;
 FTPserver ftp_server;
 UserSQL userSql("127.0.0.1", "root", "123456", "Users");
+FileSQL fileSql("127.0.0.1", "root", "123456", "Users");
 encrypt_::RSADecoder rsaDecoder("./base/rsa_private_key.pem");
+std::vector<std::pair<std::string, uint32_t>> ftpAddrs{
+    {"193.112.153.150", 10003}};
 
 // 增加非对称加密
 // 增加加密解密线程池
@@ -82,31 +87,20 @@ void accept_cli(TCPconn_sptr_t server_ptr) {
   write(new_cli_fd, &i, sizeof(uint64_t));
 }
 
-void userMsgHandle(TCPconn_sptr_t conn_sptr, const std::string& msg) {
-  auto userReq = Parser::parseUserMsg(msg);
-  switch (userReq.tp()) {
-    case protos::UserReq::regist:
-      cli_regist(conn_sptr, userReq);
-      break;
-    case protos::UserReq::login:
-      cli_login(conn_sptr, userReq);
-      break;
-    case protos::UserReq::getFile:
-      break;
-    case protos::UserReq::uploadFile:
-      break;
-  }
-}
-
 void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
-  if (!userSql.userExist(userReq.userinfo().name())) {
-    // 解密
-    std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
-    // userReq.userinfo.name 作为根目录名
-    userSql.addUser(userReq.userinfo().name(), passwd, userReq.userinfo().name());
-    conn_sptr->send("successful");
-  } else {
-    conn_sptr->send(std::move("user exist"));
+  try {
+    if (!userSql.userExist(userReq.userinfo().name())) {
+      // 解密
+      std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
+      // userReq.userinfo.name 作为根目录名
+      userSql.addUser(userReq.userinfo().name(), passwd,
+                      userReq.userinfo().name());
+      conn_sptr->send("successful");
+    } else {
+      conn_sptr->send(std::move("user exist"));
+    }
+  } catch (std::exception e) {
+    printf("cli_upload fail, %s\n", e.what());
   }
 }
 
@@ -129,26 +123,174 @@ void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   //     conn_sptr->send("pwd error");
   //   }
   // }
-  if (!userSql.userExist(userReq.userinfo().name())) {
-    conn_sptr->send("没有这个用户");
-  } else {
-    // 解密
-    std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
-    if (userSql.getPwd(userReq.userinfo().name()).compare(passwd) == 0) {
-      // FIXME: 返回序列化的两个表
-      conn_sptr->send("login success");
+  try {
+    if (!userSql.userExist(userReq.userinfo().name())) {
+      conn_sptr->send("没有这个用户");
     } else {
-      conn_sptr->send("pwd error");
+      // 解密
+      std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
+      if (userSql.getPwd(userReq.userinfo().name()).compare(passwd) == 0) {
+        // FIXME: 返回序列化的两个表
+        conn_sptr->send("login success");
+      } else {
+        conn_sptr->send("pwd error");
+      }
     }
+  } catch (std::exception e) {
+    printf("cli_upload fail, %s\n", e.what());
   }
 }
 
-void cli_get_file(TCPconn_sptr_t conn_sptr, const std::string& msg) {
-  // 从消息中解码
-  // 从数据库获取如何请求ftp
-  // 向ftp发送通知
-  ftp_server.send(std::move(msg));
-  // 回复客户端如何请求ftp
+void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  try {
+    // 通知ftp
+    protos::FtpQury ftpQury;
+    ftpQury.set_tp(protos::FtpQury::DOWNLOAD);
+    ftpQury.set_key(
+        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+    auto f_info_ptr = ftpQury.mutable_fileinfo();
+    f_info_ptr->set_name(userReq.fileinfo().filename());
+    f_info_ptr->set_path(userReq.fileinfo().path());
+    f_info_ptr->set_fid(userReq.fileinfo().fid());
+    f_info_ptr->set_size(userReq.fileinfo().size());
+    ftpQury.mutable_userinfo()->set_name(userReq.userinfo().name());
+    // construct msg
+    ftp_server.send(Parser::encode(ftpQury));
+    // 回复客户端如何请求ftp
+    protos::UserQury userQury;
+    // construct msg
+    userQury.set_tp(protos::UserQury::QURYFTP);
+    for (const auto& addr : ftpAddrs) {
+      auto ftps = userQury.add_ftps();
+      ftps->set_ip(addr.first);
+      ftps->set_port(addr.second);
+    }
+    conn_sptr->send(Parser::encode(userQury));
+  } catch (std::exception e) {
+    printf("cli_upload fail, %s\n", e.what());
+  }
+}
+
+// 数据库查询fid
+void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  try {
+    // 数据库
+    int fid = fileSql.addUsrFile(
+        userReq.fileinfo().filename(), userReq.userinfo().name(),
+        userReq.fileinfo().path(), userReq.fileinfo().size(),
+        userReq.fileinfo().tp(), userReq.fileinfo().time());
+    // 通知ftp
+    protos::FtpQury ftpQury;
+    ftpQury.set_tp(protos::FtpQury::UPLOAD);
+    ftpQury.set_key(
+        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+    auto f_info_ptr = ftpQury.mutable_fileinfo();
+    f_info_ptr->set_name(userReq.fileinfo().filename());
+    f_info_ptr->set_path(userReq.fileinfo().path());
+    f_info_ptr->set_fid(fid);
+    f_info_ptr->set_size(userReq.fileinfo().size());
+    ftpQury.mutable_userinfo()->set_name(userReq.userinfo().name());
+    ftp_server.send(Parser::encode(ftpQury));
+    // 回复客户端如何请求ftp
+    protos::UserQury userQury;
+    // construct msg
+    userQury.set_tp(protos::UserQury::QURYFTP);
+    for (const auto& addr : ftpAddrs) {
+      auto ftps = userQury.add_ftps();
+      ftps->set_ip(addr.first);
+      ftps->set_port(addr.second);
+    }
+    conn_sptr->send(Parser::encode(userQury));
+  } catch (std::exception e) {
+    printf("cli_upload fail, %s\n", e.what());
+  }
+}
+
+void cli_mkdir(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  // 数据库添加folder
+  protos::UserQury userQury;
+  userQury.set_tp(protos::UserQury::ELSE);
+  try {
+    fileSql.addFolder(userReq.fileinfo().filename(), userReq.userinfo().name(),
+                      userReq.fileinfo().path());
+    // 回复客户端
+    userQury.set_success(true);
+  } catch (std::exception e) {
+    printf("cli_mkdir fail, %s\n", e.what());
+    userQury.set_success(false);
+  }
+  conn_sptr->send(Parser::encode(userQury));
+}
+
+void cli_delFile(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  protos::UserQury userQury;
+  userQury.set_tp(protos::UserQury::ELSE);
+  try {
+    // 数据库删除
+    fileSql.deletUsrFile(userReq.userinfo().name(), userReq.fileinfo().fid());
+    // 通知ftp
+    protos::FtpQury ftpQury;
+    ftpQury.set_tp(protos::FtpQury::DELTEDFILES);
+    ftpQury.mutable_userinfo()->set_name(userReq.userinfo().name());
+    ftpQury.mutable_filelist()->add_fid(userReq.fileinfo().fid());
+    ftp_server.send(Parser::encode(ftpQury));
+    userQury.set_success(true);
+  } catch (std::exception e) {
+    printf("cli_delFile fail, %s\n", e.what());
+    userQury.set_success(false);
+  }
+  conn_sptr->send(Parser::encode(userQury));
+}
+
+void cli_del_Folder(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  protos::UserQury userQury;
+  protos::FtpQury ftpQury;
+  userQury.set_tp(protos::UserQury::ELSE);
+  try {
+    auto file2del = fileSql.deletFolder(userReq.fileinfo().filename(),
+                                        userReq.fileinfo().fid());
+    ftpQury.set_tp(protos::FtpQury::DELTEDFILES);
+    ftpQury.mutable_userinfo()->set_name(userReq.userinfo().name());
+    for (int f : file2del) {
+      ftpQury.mutable_filelist()->add_fid(f);
+    }
+    ftp_server.send(Parser::encode(ftpQury));
+    // 回复客户端
+    userQury.set_success(true);
+  } catch (std::exception e) {
+    printf("cli_del_Folder fail, %s\n", e.what());
+    userQury.set_success(false);
+  }
+  conn_sptr->send(Parser::encode(userQury));
+}
+
+void userMsgHandle(TCPconn_sptr_t conn_sptr, const std::string& msg) {
+  auto userReq = Parser::parseUserMsg(msg);
+  switch (userReq.tp()) {
+    case protos::UserReq::REGIST:
+      cli_regist(conn_sptr, userReq);
+      break;
+    case protos::UserReq::LOGIN:
+      cli_login(conn_sptr, userReq);
+      break;
+    case protos::UserReq::DOENLOAD:
+      cli_download(conn_sptr, userReq);
+      break;
+    case protos::UserReq::UPLOAD:
+      cli_upload(conn_sptr, userReq);
+      break;
+    case protos::UserReq::MKDIR:
+      cli_mkdir(conn_sptr, userReq);
+      break;
+    case protos::UserReq::DELFILE:
+      cli_delFile(conn_sptr, userReq);
+      break;
+    case protos::UserReq::DELFOLDER:
+      cli_del_Folder(conn_sptr, userReq);
+      break;
+    default:
+      break;
+  }
 }
 
 // 客户端请求分发
@@ -182,8 +324,11 @@ void cli_add_to_epoll(std::set<TCPconn_sptr_t>* conns, Epoll* epfd_ptr) {
 }
 
 void ftp_thr() {
-  std::vector<InetAddress> ftp_addr({InetAddress("193.112.153.150", 10003)});
-  ftp_server.add(ftp_addr);
+  std::vector<InetAddress> ftp_addrs;
+  for (const auto& addr : ftpAddrs) {
+    ftp_addrs.emplace_back(InetAddress(addr.first, addr.second));
+  }
+  ftp_server.add(ftp_addrs);
   ftp_server.run();
 }
 

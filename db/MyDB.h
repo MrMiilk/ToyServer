@@ -65,7 +65,7 @@ public:
                           int id);              //获取该用户该文件（id还是name?）
   bool ifexistUsrFile(string username, int id); //该用户文件夹是否存在该文件
   list<string> getAllFile(string username);     //获取该个人文件夹内全部文件
-  // 获取文件的父节点的fid（即该文件的pid）
+                                                // 获取文件的父节点的fid（即该文件的pid）
   int getParent(string username, int fid);
   // 获取一个节点的所有子节点
   list<int> getSons(string username, int pid);
@@ -77,6 +77,8 @@ public:
   vector<vector<int>> getAssTable(string username);
   // 返回该用户的关联表
   vector<File> getFileTable(string username);
+  // 删除子文件夹,fid是该子文件夹的fid
+  void deleteSubFolder(string username,int fid);
 
 private:
   MYSQL *connection; // MySQL对象

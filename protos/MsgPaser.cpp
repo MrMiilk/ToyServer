@@ -18,4 +18,12 @@ protos::FtpQury parseFtpQury(const std::string& msg) {
   return req;
 }
 
+protos::FtpReq parseFtpReq(const std::string& msg) {
+  protos::FtpReq req;
+  if (!req.ParseFromString(msg)) {
+    printf("parseFtpReq: ParseFromString error");
+  }
+  return req;
+}
+
 }  // namespace Parser

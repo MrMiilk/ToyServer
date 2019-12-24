@@ -1,11 +1,14 @@
 #include "FTPserver.h"
-#include "protos/ftp.pb.h"
+#include "net/Epoll.h"
+#include "net/Event.h"
 #include "protos/MsgPaser.h"
+#include "protos/ftp.pb.h"
 
 // FTPserver 即为ftp部分的线程族 管理ftp的连接
 // 自己监听读事件从而处理可能的关闭
 // 使用队列接收向ftp 服务器发送的请求
 void FTPserver::add(const std::vector<InetAddress>& ftp_addrs) {
+  printf("connecting ftp ...\n");
   for (std::size_t i = 0; i < ftp_addrs.size(); ++i) {
     int s_fd = ::socket(AF_INET, SOCK_STREAM, 0);
     const struct sockaddr_in& addr = ftp_addrs[i].get();
@@ -22,16 +25,16 @@ void FTPserver::add(const std::vector<InetAddress>& ftp_addrs) {
     servers_.emplace(tmp);
     // ==================================================
     protos::FtpQury aliveQ;
+    aliveQ.set_tp(protos::FtpQury::CONNECT);
     aliveQ.set_key("Hello");
-    protos::FtpFileInfo* aliveQFInfo = aliveQ.mutable_fileinfo();
-    aliveQFInfo->set_name("None");
-    aliveQFInfo->set_path("/");
-    aliveQFInfo->set_fid(0);
-    aliveQFInfo->set_size(0);
-    aliveQ.mutable_userinfo()->set_name("hello");
+    // protos::FtpFileInfo* aliveQFInfo = aliveQ.mutable_fileinfo();
+    // aliveQFInfo->set_name("None");
+    // aliveQFInfo->set_path("/");
+    // aliveQFInfo->set_fid(0);
+    // aliveQFInfo->set_size(0);
+    // aliveQ.mutable_userinfo()->set_name("hello");
     send(Parser::encode(aliveQ));  // 第一条验证消息
     // ==================================================
-    printf("connected\n");
   }
 }
 
@@ -58,4 +61,19 @@ void FTPserver::onReadble(TCPconn::conn_sptr_t ftp_cnn_sptr,
     servers_.erase(ftp_cnn_sptr);
   }
   // 来自ftp server 的消息
+  // 解析数据报并处理
+  protos::FtpReq req = Parser::parseFtpReq(msg);
+  if (req.tp() == protos::FtpReq::CONNECT) {
+    printf("ftp connected... \n");
+  }
+  switch (req.tp()) {
+    case protos::FtpReq::CONNECT:
+      printf("ftp connected... \n");
+      break;
+    case protos::FtpReq::DELATED:
+      printf("FIXME: delete from sql \n");
+      break;
+    default:
+      break;
+  }
 }

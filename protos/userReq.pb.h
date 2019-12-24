@@ -48,7 +48,7 @@ struct TableStruct_userReq_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -59,32 +59,42 @@ namespace protos {
 class FileInfo;
 class FileInfoDefaultTypeInternal;
 extern FileInfoDefaultTypeInternal _FileInfo_default_instance_;
+class FtpNode;
+class FtpNodeDefaultTypeInternal;
+extern FtpNodeDefaultTypeInternal _FtpNode_default_instance_;
 class UserInfo;
 class UserInfoDefaultTypeInternal;
 extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
+class UserQury;
+class UserQuryDefaultTypeInternal;
+extern UserQuryDefaultTypeInternal _UserQury_default_instance_;
 class UserReq;
 class UserReqDefaultTypeInternal;
 extern UserReqDefaultTypeInternal _UserReq_default_instance_;
 }  // namespace protos
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protos::FileInfo* Arena::CreateMaybeMessage<::protos::FileInfo>(Arena*);
+template<> ::protos::FtpNode* Arena::CreateMaybeMessage<::protos::FtpNode>(Arena*);
 template<> ::protos::UserInfo* Arena::CreateMaybeMessage<::protos::UserInfo>(Arena*);
+template<> ::protos::UserQury* Arena::CreateMaybeMessage<::protos::UserQury>(Arena*);
 template<> ::protos::UserReq* Arena::CreateMaybeMessage<::protos::UserReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protos {
 
 enum UserReq_reqTp : int {
-  UserReq_reqTp_regist = 0,
-  UserReq_reqTp_login = 1,
-  UserReq_reqTp_getFile = 2,
-  UserReq_reqTp_uploadFile = 3,
-  UserReq_reqTp_mkDir = 4,
+  UserReq_reqTp_REGIST = 0,
+  UserReq_reqTp_LOGIN = 1,
+  UserReq_reqTp_DOENLOAD = 2,
+  UserReq_reqTp_UPLOAD = 3,
+  UserReq_reqTp_MKDIR = 4,
+  UserReq_reqTp_DELFILE = 5,
+  UserReq_reqTp_DELFOLDER = 6,
   UserReq_reqTp_UserReq_reqTp_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   UserReq_reqTp_UserReq_reqTp_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool UserReq_reqTp_IsValid(int value);
-constexpr UserReq_reqTp UserReq_reqTp_reqTp_MIN = UserReq_reqTp_regist;
-constexpr UserReq_reqTp UserReq_reqTp_reqTp_MAX = UserReq_reqTp_mkDir;
+constexpr UserReq_reqTp UserReq_reqTp_reqTp_MIN = UserReq_reqTp_REGIST;
+constexpr UserReq_reqTp UserReq_reqTp_reqTp_MAX = UserReq_reqTp_DELFOLDER;
 constexpr int UserReq_reqTp_reqTp_ARRAYSIZE = UserReq_reqTp_reqTp_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserReq_reqTp_descriptor();
@@ -100,6 +110,33 @@ inline bool UserReq_reqTp_Parse(
     const std::string& name, UserReq_reqTp* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserReq_reqTp>(
     UserReq_reqTp_descriptor(), name, value);
+}
+enum UserQury_Type : int {
+  UserQury_Type_REGIST = 0,
+  UserQury_Type_LOGIN = 1,
+  UserQury_Type_QURYFTP = 4,
+  UserQury_Type_ELSE = 5,
+  UserQury_Type_UserQury_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  UserQury_Type_UserQury_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool UserQury_Type_IsValid(int value);
+constexpr UserQury_Type UserQury_Type_Type_MIN = UserQury_Type_REGIST;
+constexpr UserQury_Type UserQury_Type_Type_MAX = UserQury_Type_ELSE;
+constexpr int UserQury_Type_Type_ARRAYSIZE = UserQury_Type_Type_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserQury_Type_descriptor();
+template<typename T>
+inline const std::string& UserQury_Type_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, UserQury_Type>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function UserQury_Type_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    UserQury_Type_descriptor(), enum_t_value);
+}
+inline bool UserQury_Type_Parse(
+    const std::string& name, UserQury_Type* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserQury_Type>(
+    UserQury_Type_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -365,7 +402,10 @@ class FileInfo :
     kFileNameFieldNumber = 1,
     kPathFieldNumber = 2,
     kTpFieldNumber = 4,
+    kTimeFieldNumber = 5,
     kSizeFieldNumber = 3,
+    kIflastFieldNumber = 6,
+    kFidFieldNumber = 7,
   };
   // string fileName = 1;
   void clear_filename();
@@ -415,6 +455,22 @@ class FileInfo :
   std::string* _internal_mutable_tp();
   public:
 
+  // string time = 5;
+  void clear_time();
+  const std::string& time() const;
+  void set_time(const std::string& value);
+  void set_time(std::string&& value);
+  void set_time(const char* value);
+  void set_time(const char* value, size_t size);
+  std::string* mutable_time();
+  std::string* release_time();
+  void set_allocated_time(std::string* time);
+  private:
+  const std::string& _internal_time() const;
+  void _internal_set_time(const std::string& value);
+  std::string* _internal_mutable_time();
+  public:
+
   // uint32 size = 3;
   void clear_size();
   ::PROTOBUF_NAMESPACE_ID::uint32 size() const;
@@ -422,6 +478,24 @@ class FileInfo :
   private:
   ::PROTOBUF_NAMESPACE_ID::uint32 _internal_size() const;
   void _internal_set_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 iflast = 6;
+  void clear_iflast();
+  ::PROTOBUF_NAMESPACE_ID::uint32 iflast() const;
+  void set_iflast(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_iflast() const;
+  void _internal_set_iflast(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 fid = 7;
+  void clear_fid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 fid() const;
+  void set_fid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_fid() const;
+  void _internal_set_fid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:protos.FileInfo)
@@ -432,7 +506,10 @@ class FileInfo :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr filename_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tp_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr time_;
   ::PROTOBUF_NAMESPACE_ID::uint32 size_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 iflast_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 fid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_userReq_2eproto;
 };
@@ -542,16 +619,20 @@ class UserReq :
   // nested types ----------------------------------------------------
 
   typedef UserReq_reqTp reqTp;
-  static constexpr reqTp regist =
-    UserReq_reqTp_regist;
-  static constexpr reqTp login =
-    UserReq_reqTp_login;
-  static constexpr reqTp getFile =
-    UserReq_reqTp_getFile;
-  static constexpr reqTp uploadFile =
-    UserReq_reqTp_uploadFile;
-  static constexpr reqTp mkDir =
-    UserReq_reqTp_mkDir;
+  static constexpr reqTp REGIST =
+    UserReq_reqTp_REGIST;
+  static constexpr reqTp LOGIN =
+    UserReq_reqTp_LOGIN;
+  static constexpr reqTp DOENLOAD =
+    UserReq_reqTp_DOENLOAD;
+  static constexpr reqTp UPLOAD =
+    UserReq_reqTp_UPLOAD;
+  static constexpr reqTp MKDIR =
+    UserReq_reqTp_MKDIR;
+  static constexpr reqTp DELFILE =
+    UserReq_reqTp_DELFILE;
+  static constexpr reqTp DELFOLDER =
+    UserReq_reqTp_DELFOLDER;
   static inline bool reqTp_IsValid(int value) {
     return UserReq_reqTp_IsValid(value);
   }
@@ -631,6 +712,345 @@ class UserReq :
   ::protos::UserInfo* userinfo_;
   ::protos::FileInfo* fileinfo_;
   int tp_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_userReq_2eproto;
+};
+// -------------------------------------------------------------------
+
+class FtpNode :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protos.FtpNode) */ {
+ public:
+  FtpNode();
+  virtual ~FtpNode();
+
+  FtpNode(const FtpNode& from);
+  FtpNode(FtpNode&& from) noexcept
+    : FtpNode() {
+    *this = ::std::move(from);
+  }
+
+  inline FtpNode& operator=(const FtpNode& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FtpNode& operator=(FtpNode&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const FtpNode& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const FtpNode* internal_default_instance() {
+    return reinterpret_cast<const FtpNode*>(
+               &_FtpNode_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(FtpNode& a, FtpNode& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(FtpNode* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline FtpNode* New() const final {
+    return CreateMaybeMessage<FtpNode>(nullptr);
+  }
+
+  FtpNode* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<FtpNode>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const FtpNode& from);
+  void MergeFrom(const FtpNode& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(FtpNode* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protos.FtpNode";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_userReq_2eproto);
+    return ::descriptor_table_userReq_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIpFieldNumber = 1,
+    kPortFieldNumber = 2,
+  };
+  // string ip = 1;
+  void clear_ip();
+  const std::string& ip() const;
+  void set_ip(const std::string& value);
+  void set_ip(std::string&& value);
+  void set_ip(const char* value);
+  void set_ip(const char* value, size_t size);
+  std::string* mutable_ip();
+  std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // uint32 port = 2;
+  void clear_port();
+  ::PROTOBUF_NAMESPACE_ID::uint32 port() const;
+  void set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_port() const;
+  void _internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protos.FtpNode)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 port_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_userReq_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UserQury :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protos.UserQury) */ {
+ public:
+  UserQury();
+  virtual ~UserQury();
+
+  UserQury(const UserQury& from);
+  UserQury(UserQury&& from) noexcept
+    : UserQury() {
+    *this = ::std::move(from);
+  }
+
+  inline UserQury& operator=(const UserQury& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UserQury& operator=(UserQury&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const UserQury& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UserQury* internal_default_instance() {
+    return reinterpret_cast<const UserQury*>(
+               &_UserQury_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(UserQury& a, UserQury& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UserQury* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UserQury* New() const final {
+    return CreateMaybeMessage<UserQury>(nullptr);
+  }
+
+  UserQury* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<UserQury>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const UserQury& from);
+  void MergeFrom(const UserQury& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UserQury* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protos.UserQury";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_userReq_2eproto);
+    return ::descriptor_table_userReq_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef UserQury_Type Type;
+  static constexpr Type REGIST =
+    UserQury_Type_REGIST;
+  static constexpr Type LOGIN =
+    UserQury_Type_LOGIN;
+  static constexpr Type QURYFTP =
+    UserQury_Type_QURYFTP;
+  static constexpr Type ELSE =
+    UserQury_Type_ELSE;
+  static inline bool Type_IsValid(int value) {
+    return UserQury_Type_IsValid(value);
+  }
+  static constexpr Type Type_MIN =
+    UserQury_Type_Type_MIN;
+  static constexpr Type Type_MAX =
+    UserQury_Type_Type_MAX;
+  static constexpr int Type_ARRAYSIZE =
+    UserQury_Type_Type_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  Type_descriptor() {
+    return UserQury_Type_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& Type_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, Type>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function Type_Name.");
+    return UserQury_Type_Name(enum_t_value);
+  }
+  static inline bool Type_Parse(const std::string& name,
+      Type* value) {
+    return UserQury_Type_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFtpsFieldNumber = 5,
+    kTpFieldNumber = 1,
+    kSuccessFieldNumber = 2,
+  };
+  // repeated .protos.FtpNode ftps = 5;
+  int ftps_size() const;
+  private:
+  int _internal_ftps_size() const;
+  public:
+  void clear_ftps();
+  ::protos::FtpNode* mutable_ftps(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protos::FtpNode >*
+      mutable_ftps();
+  private:
+  const ::protos::FtpNode& _internal_ftps(int index) const;
+  ::protos::FtpNode* _internal_add_ftps();
+  public:
+  const ::protos::FtpNode& ftps(int index) const;
+  ::protos::FtpNode* add_ftps();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protos::FtpNode >&
+      ftps() const;
+
+  // .protos.UserQury.Type tp = 1;
+  void clear_tp();
+  ::protos::UserQury_Type tp() const;
+  void set_tp(::protos::UserQury_Type value);
+  private:
+  ::protos::UserQury_Type _internal_tp() const;
+  void _internal_set_tp(::protos::UserQury_Type value);
+  public:
+
+  // bool success = 2;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protos.UserQury)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protos::FtpNode > ftps_;
+  int tp_;
+  bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_userReq_2eproto;
 };
@@ -969,6 +1389,106 @@ inline void FileInfo::set_allocated_tp(std::string* tp) {
   // @@protoc_insertion_point(field_set_allocated:protos.FileInfo.tp)
 }
 
+// string time = 5;
+inline void FileInfo::clear_time() {
+  time_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& FileInfo::time() const {
+  // @@protoc_insertion_point(field_get:protos.FileInfo.time)
+  return _internal_time();
+}
+inline void FileInfo::set_time(const std::string& value) {
+  _internal_set_time(value);
+  // @@protoc_insertion_point(field_set:protos.FileInfo.time)
+}
+inline std::string* FileInfo::mutable_time() {
+  // @@protoc_insertion_point(field_mutable:protos.FileInfo.time)
+  return _internal_mutable_time();
+}
+inline const std::string& FileInfo::_internal_time() const {
+  return time_.GetNoArena();
+}
+inline void FileInfo::_internal_set_time(const std::string& value) {
+  
+  time_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void FileInfo::set_time(std::string&& value) {
+  
+  time_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:protos.FileInfo.time)
+}
+inline void FileInfo::set_time(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  time_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protos.FileInfo.time)
+}
+inline void FileInfo::set_time(const char* value, size_t size) {
+  
+  time_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protos.FileInfo.time)
+}
+inline std::string* FileInfo::_internal_mutable_time() {
+  
+  return time_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* FileInfo::release_time() {
+  // @@protoc_insertion_point(field_release:protos.FileInfo.time)
+  
+  return time_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void FileInfo::set_allocated_time(std::string* time) {
+  if (time != nullptr) {
+    
+  } else {
+    
+  }
+  time_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), time);
+  // @@protoc_insertion_point(field_set_allocated:protos.FileInfo.time)
+}
+
+// uint32 iflast = 6;
+inline void FileInfo::clear_iflast() {
+  iflast_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FileInfo::_internal_iflast() const {
+  return iflast_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FileInfo::iflast() const {
+  // @@protoc_insertion_point(field_get:protos.FileInfo.iflast)
+  return _internal_iflast();
+}
+inline void FileInfo::_internal_set_iflast(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  iflast_ = value;
+}
+inline void FileInfo::set_iflast(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_iflast(value);
+  // @@protoc_insertion_point(field_set:protos.FileInfo.iflast)
+}
+
+// uint32 fid = 7;
+inline void FileInfo::clear_fid() {
+  fid_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FileInfo::_internal_fid() const {
+  return fid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FileInfo::fid() const {
+  // @@protoc_insertion_point(field_get:protos.FileInfo.fid)
+  return _internal_fid();
+}
+inline void FileInfo::_internal_set_fid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  fid_ = value;
+}
+inline void FileInfo::set_fid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_fid(value);
+  // @@protoc_insertion_point(field_set:protos.FileInfo.fid)
+}
+
 // -------------------------------------------------------------------
 
 // UserReq
@@ -1113,9 +1633,180 @@ inline void UserReq::set_allocated_fileinfo(::protos::FileInfo* fileinfo) {
   // @@protoc_insertion_point(field_set_allocated:protos.UserReq.fileinfo)
 }
 
+// -------------------------------------------------------------------
+
+// FtpNode
+
+// string ip = 1;
+inline void FtpNode::clear_ip() {
+  ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& FtpNode::ip() const {
+  // @@protoc_insertion_point(field_get:protos.FtpNode.ip)
+  return _internal_ip();
+}
+inline void FtpNode::set_ip(const std::string& value) {
+  _internal_set_ip(value);
+  // @@protoc_insertion_point(field_set:protos.FtpNode.ip)
+}
+inline std::string* FtpNode::mutable_ip() {
+  // @@protoc_insertion_point(field_mutable:protos.FtpNode.ip)
+  return _internal_mutable_ip();
+}
+inline const std::string& FtpNode::_internal_ip() const {
+  return ip_.GetNoArena();
+}
+inline void FtpNode::_internal_set_ip(const std::string& value) {
+  
+  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void FtpNode::set_ip(std::string&& value) {
+  
+  ip_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:protos.FtpNode.ip)
+}
+inline void FtpNode::set_ip(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protos.FtpNode.ip)
+}
+inline void FtpNode::set_ip(const char* value, size_t size) {
+  
+  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protos.FtpNode.ip)
+}
+inline std::string* FtpNode::_internal_mutable_ip() {
+  
+  return ip_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* FtpNode::release_ip() {
+  // @@protoc_insertion_point(field_release:protos.FtpNode.ip)
+  
+  return ip_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void FtpNode::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip);
+  // @@protoc_insertion_point(field_set_allocated:protos.FtpNode.ip)
+}
+
+// uint32 port = 2;
+inline void FtpNode::clear_port() {
+  port_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FtpNode::_internal_port() const {
+  return port_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 FtpNode::port() const {
+  // @@protoc_insertion_point(field_get:protos.FtpNode.port)
+  return _internal_port();
+}
+inline void FtpNode::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  port_ = value;
+}
+inline void FtpNode::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:protos.FtpNode.port)
+}
+
+// -------------------------------------------------------------------
+
+// UserQury
+
+// .protos.UserQury.Type tp = 1;
+inline void UserQury::clear_tp() {
+  tp_ = 0;
+}
+inline ::protos::UserQury_Type UserQury::_internal_tp() const {
+  return static_cast< ::protos::UserQury_Type >(tp_);
+}
+inline ::protos::UserQury_Type UserQury::tp() const {
+  // @@protoc_insertion_point(field_get:protos.UserQury.tp)
+  return _internal_tp();
+}
+inline void UserQury::_internal_set_tp(::protos::UserQury_Type value) {
+  
+  tp_ = value;
+}
+inline void UserQury::set_tp(::protos::UserQury_Type value) {
+  _internal_set_tp(value);
+  // @@protoc_insertion_point(field_set:protos.UserQury.tp)
+}
+
+// bool success = 2;
+inline void UserQury::clear_success() {
+  success_ = false;
+}
+inline bool UserQury::_internal_success() const {
+  return success_;
+}
+inline bool UserQury::success() const {
+  // @@protoc_insertion_point(field_get:protos.UserQury.success)
+  return _internal_success();
+}
+inline void UserQury::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void UserQury::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:protos.UserQury.success)
+}
+
+// repeated .protos.FtpNode ftps = 5;
+inline int UserQury::_internal_ftps_size() const {
+  return ftps_.size();
+}
+inline int UserQury::ftps_size() const {
+  return _internal_ftps_size();
+}
+inline void UserQury::clear_ftps() {
+  ftps_.Clear();
+}
+inline ::protos::FtpNode* UserQury::mutable_ftps(int index) {
+  // @@protoc_insertion_point(field_mutable:protos.UserQury.ftps)
+  return ftps_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protos::FtpNode >*
+UserQury::mutable_ftps() {
+  // @@protoc_insertion_point(field_mutable_list:protos.UserQury.ftps)
+  return &ftps_;
+}
+inline const ::protos::FtpNode& UserQury::_internal_ftps(int index) const {
+  return ftps_.Get(index);
+}
+inline const ::protos::FtpNode& UserQury::ftps(int index) const {
+  // @@protoc_insertion_point(field_get:protos.UserQury.ftps)
+  return _internal_ftps(index);
+}
+inline ::protos::FtpNode* UserQury::_internal_add_ftps() {
+  return ftps_.Add();
+}
+inline ::protos::FtpNode* UserQury::add_ftps() {
+  // @@protoc_insertion_point(field_add:protos.UserQury.ftps)
+  return _internal_add_ftps();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protos::FtpNode >&
+UserQury::ftps() const {
+  // @@protoc_insertion_point(field_list:protos.UserQury.ftps)
+  return ftps_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -1131,6 +1822,11 @@ template <> struct is_proto_enum< ::protos::UserReq_reqTp> : ::std::true_type {}
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protos::UserReq_reqTp>() {
   return ::protos::UserReq_reqTp_descriptor();
+}
+template <> struct is_proto_enum< ::protos::UserQury_Type> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protos::UserQury_Type>() {
+  return ::protos::UserQury_Type_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

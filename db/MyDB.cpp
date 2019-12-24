@@ -238,6 +238,7 @@ void MyDB::deleteFolder(string foldername)
 {
   string s = "drop table " + foldername;
   execSQL(s);
+  deleteFolAss(foldername);
 }
 
 // 获取该用户个人文件夹名称
@@ -415,6 +416,22 @@ vector<MyDB::File> MyDB::getFileTable(string username)
   return Files;
 }
 
+// 删除子文件夹,fid是该子文件夹的fid
+void MyDB::deleteSubFolder(string username, int fid)
+{
+  list<int> sons = getSons(username, fid);
+  list<int>::iterator it;
+  for (it = sons.begin(); it != sons.end(); ++it)
+  {
+    if (!getSons(username, *it).empty())
+    {
+      deleteSubFolder(username, *it);
+    }
+    deleteUsrFile(username,*it);
+  }
+  deleteUsrFile(username,fid);
+}
+
 // 测试用函数
 // 打印关联表
 void printasstable(vector<vector<int>> asstable)
@@ -441,31 +458,21 @@ void printfiletable(vector<MyDB::File> filetable)
 // int main()
 // {
 //   MyDB db;
-//   db.initDB("localhost", "root", "hsb19990812", "mysql");
+//   db.initDB("localhost", "root", "12580", "mysql");
 //   db.deleteDB("HelloPan");
 //   db.createDB("HelloPan");
 //   db.useDB("HelloPan");
 //   db.createUsrTab();
 //   db.addUsr("HSB", "123456", "HSBFolder");
 //   db.updatePswd("HSB", "098765");
-//   db.addUsrFile("/", "HSB", "/", 0, 123, 234, "dir", "2019", 0);          //增加根目录
-//   db.addUsrFile("hsb", "HSB", "/hsb/", 1, 123, 234, "dir", "2019", 0);    //新建子目录
-//   db.addUsrFile("xxx", "HSB", "/hsb/xxx", 2, 123, 234, "txt", "2019", 0); //新建子目录
+//   db.addUsrFile("/", "HSB", "/", 0, 123, 234, "dir", "2019", 0); //增加根目录
+//   db.addUsrFile("hsb", "HSB", "/hsb/", 1, 123, 234, "dir", "2019", 0); //新建子目录
+//   db.addUsrFile("hhh", "HSB", "/hhh/", 1, 123, 234, "dir", "2019", 0); //新建子目录
 //   string path = "/hsb/";
 //   int pid = db.getFid("HSB", path);
-//   printf("pid=%d", pid);
 //   db.addUsrFile("hsb_1", "HSB", "/hsb/hsb_1", pid, 123, 234, "dir", "2019", 0); //新建文件
-//   db.deleteUsrFile("HSB", 4);
-//   db.printResult(db.getUsrFile("HSB", 3));
-
-//   // string s = "select * from HSBFolder_ass";
-//   // db.execSQL(s);
-//   // db.showResult();
-//   vector<vector<int>> asstable = db.getAssTable("HSB");
-//   vector<MyDB::File> filetable = db.getFileTable("HSB");
-//   printasstable(asstable);
-//   printfiletable(filetable);
-//   // printf("ok\n");
+//   db.deleteUsrFile("HSB",4);
+//   db.printResult(db.getUsrFile("HSB",3));
 //   return 0;
 // }
 

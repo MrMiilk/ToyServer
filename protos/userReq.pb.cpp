@@ -15,6 +15,7 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_userReq_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FileInfo_userReq_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_userReq_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FtpNode_userReq_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_userReq_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserInfo_userReq_2eproto;
 namespace protos {
 class UserInfoDefaultTypeInternal {
@@ -29,6 +30,14 @@ class UserReqDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserReq> _instance;
 } _UserReq_default_instance_;
+class FtpNodeDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<FtpNode> _instance;
+} _FtpNode_default_instance_;
+class UserQuryDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<UserQury> _instance;
+} _UserQury_default_instance_;
 }  // namespace protos
 static void InitDefaultsscc_info_FileInfo_userReq_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -44,6 +53,20 @@ static void InitDefaultsscc_info_FileInfo_userReq_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FileInfo_userReq_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_FileInfo_userReq_2eproto}, {}};
 
+static void InitDefaultsscc_info_FtpNode_userReq_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::protos::_FtpNode_default_instance_;
+    new (ptr) ::protos::FtpNode();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::protos::FtpNode::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FtpNode_userReq_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_FtpNode_userReq_2eproto}, {}};
+
 static void InitDefaultsscc_info_UserInfo_userReq_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -57,6 +80,21 @@ static void InitDefaultsscc_info_UserInfo_userReq_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_UserInfo_userReq_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_UserInfo_userReq_2eproto}, {}};
+
+static void InitDefaultsscc_info_UserQury_userReq_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::protos::_UserQury_default_instance_;
+    new (ptr) ::protos::UserQury();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::protos::UserQury::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_UserQury_userReq_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_UserQury_userReq_2eproto}, {
+      &scc_info_FtpNode_userReq_2eproto.base,}};
 
 static void InitDefaultsscc_info_UserReq_userReq_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -74,8 +112,8 @@ static void InitDefaultsscc_info_UserReq_userReq_2eproto() {
       &scc_info_UserInfo_userReq_2eproto.base,
       &scc_info_FileInfo_userReq_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_userReq_2eproto[3];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_userReq_2eproto[1];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_userReq_2eproto[5];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_userReq_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_userReq_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_userReq_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -95,6 +133,9 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_userReq_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::protos::FileInfo, path_),
   PROTOBUF_FIELD_OFFSET(::protos::FileInfo, size_),
   PROTOBUF_FIELD_OFFSET(::protos::FileInfo, tp_),
+  PROTOBUF_FIELD_OFFSET(::protos::FileInfo, time_),
+  PROTOBUF_FIELD_OFFSET(::protos::FileInfo, iflast_),
+  PROTOBUF_FIELD_OFFSET(::protos::FileInfo, fid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protos::UserReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -103,44 +144,71 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_userReq_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::protos::UserReq, tp_),
   PROTOBUF_FIELD_OFFSET(::protos::UserReq, userinfo_),
   PROTOBUF_FIELD_OFFSET(::protos::UserReq, fileinfo_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protos::FtpNode, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protos::FtpNode, ip_),
+  PROTOBUF_FIELD_OFFSET(::protos::FtpNode, port_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protos::UserQury, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protos::UserQury, tp_),
+  PROTOBUF_FIELD_OFFSET(::protos::UserQury, success_),
+  PROTOBUF_FIELD_OFFSET(::protos::UserQury, ftps_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protos::UserInfo)},
   { 7, -1, sizeof(::protos::FileInfo)},
-  { 16, -1, sizeof(::protos::UserReq)},
+  { 19, -1, sizeof(::protos::UserReq)},
+  { 27, -1, sizeof(::protos::FtpNode)},
+  { 34, -1, sizeof(::protos::UserQury)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protos::_UserInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protos::_FileInfo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protos::_UserReq_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protos::_FtpNode_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protos::_UserQury_default_instance_),
 };
 
 const char descriptor_table_protodef_userReq_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\ruserReq.proto\022\006protos\"(\n\010UserInfo\022\014\n\004n"
-  "ame\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"D\n\010FileInfo\022\020\n"
+  "ame\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"o\n\010FileInfo\022\020\n"
   "\010fileName\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022\014\n\004size\030\003 "
-  "\001(\r\022\n\n\002tp\030\004 \001(\t\"\274\001\n\007UserReq\022!\n\002tp\030\001 \001(\0162"
-  "\025.protos.UserReq.reqTp\022\"\n\010userInfo\030\002 \001(\013"
-  "2\020.protos.UserInfo\022\"\n\010fileinfo\030\003 \001(\0132\020.p"
-  "rotos.FileInfo\"F\n\005reqTp\022\n\n\006regist\020\000\022\t\n\005l"
-  "ogin\020\001\022\013\n\007getFile\020\002\022\016\n\nuploadFile\020\003\022\t\n\005m"
-  "kDir\020\004b\006proto3"
+  "\001(\r\022\n\n\002tp\030\004 \001(\t\022\014\n\004time\030\005 \001(\t\022\016\n\006iflast\030"
+  "\006 \001(\r\022\013\n\003fid\030\007 \001(\r\"\325\001\n\007UserReq\022!\n\002tp\030\001 \001"
+  "(\0162\025.protos.UserReq.reqTp\022\"\n\010userInfo\030\002 "
+  "\001(\0132\020.protos.UserInfo\022\"\n\010fileinfo\030\003 \001(\0132"
+  "\020.protos.FileInfo\"_\n\005reqTp\022\n\n\006REGIST\020\000\022\t"
+  "\n\005LOGIN\020\001\022\014\n\010DOENLOAD\020\002\022\n\n\006UPLOAD\020\003\022\t\n\005M"
+  "KDIR\020\004\022\013\n\007DELFILE\020\005\022\r\n\tDELFOLDER\020\006\"#\n\007Ft"
+  "pNode\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\"\223\001\n\010User"
+  "Qury\022!\n\002tp\030\001 \001(\0162\025.protos.UserQury.Type\022"
+  "\017\n\007success\030\002 \001(\010\022\035\n\004ftps\030\005 \003(\0132\017.protos."
+  "FtpNode\"4\n\004Type\022\n\n\006REGIST\020\000\022\t\n\005LOGIN\020\001\022\013"
+  "\n\007QURYFTP\020\004\022\010\n\004ELSE\020\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_userReq_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_userReq_2eproto_sccs[3] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_userReq_2eproto_sccs[5] = {
   &scc_info_FileInfo_userReq_2eproto.base,
+  &scc_info_FtpNode_userReq_2eproto.base,
   &scc_info_UserInfo_userReq_2eproto.base,
+  &scc_info_UserQury_userReq_2eproto.base,
   &scc_info_UserReq_userReq_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_userReq_2eproto_once;
 static bool descriptor_table_userReq_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_userReq_2eproto = {
-  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 334,
-  &descriptor_table_userReq_2eproto_once, descriptor_table_userReq_2eproto_sccs, descriptor_table_userReq_2eproto_deps, 3, 0,
+  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 589,
+  &descriptor_table_userReq_2eproto_once, descriptor_table_userReq_2eproto_sccs, descriptor_table_userReq_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_userReq_2eproto::offsets,
-  file_level_metadata_userReq_2eproto, 3, file_level_enum_descriptors_userReq_2eproto, file_level_service_descriptors_userReq_2eproto,
+  file_level_metadata_userReq_2eproto, 5, file_level_enum_descriptors_userReq_2eproto, file_level_service_descriptors_userReq_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -157,6 +225,8 @@ bool UserReq_reqTp_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
+    case 6:
       return true;
     default:
       return false;
@@ -164,14 +234,41 @@ bool UserReq_reqTp_IsValid(int value) {
 }
 
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr UserReq_reqTp UserReq::regist;
-constexpr UserReq_reqTp UserReq::login;
-constexpr UserReq_reqTp UserReq::getFile;
-constexpr UserReq_reqTp UserReq::uploadFile;
-constexpr UserReq_reqTp UserReq::mkDir;
+constexpr UserReq_reqTp UserReq::REGIST;
+constexpr UserReq_reqTp UserReq::LOGIN;
+constexpr UserReq_reqTp UserReq::DOENLOAD;
+constexpr UserReq_reqTp UserReq::UPLOAD;
+constexpr UserReq_reqTp UserReq::MKDIR;
+constexpr UserReq_reqTp UserReq::DELFILE;
+constexpr UserReq_reqTp UserReq::DELFOLDER;
 constexpr UserReq_reqTp UserReq::reqTp_MIN;
 constexpr UserReq_reqTp UserReq::reqTp_MAX;
 constexpr int UserReq::reqTp_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserQury_Type_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_userReq_2eproto);
+  return file_level_enum_descriptors_userReq_2eproto[1];
+}
+bool UserQury_Type_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 4:
+    case 5:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr UserQury_Type UserQury::REGIST;
+constexpr UserQury_Type UserQury::LOGIN;
+constexpr UserQury_Type UserQury::QURYFTP;
+constexpr UserQury_Type UserQury::ELSE;
+constexpr UserQury_Type UserQury::Type_MIN;
+constexpr UserQury_Type UserQury::Type_MAX;
+constexpr int UserQury::Type_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
@@ -441,7 +538,13 @@ FileInfo::FileInfo(const FileInfo& from)
   if (!from._internal_tp().empty()) {
     tp_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tp_);
   }
-  size_ = from.size_;
+  time_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_time().empty()) {
+    time_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.time_);
+  }
+  ::memcpy(&size_, &from.size_,
+    static_cast<size_t>(reinterpret_cast<char*>(&fid_) -
+    reinterpret_cast<char*>(&size_)) + sizeof(fid_));
   // @@protoc_insertion_point(copy_constructor:protos.FileInfo)
 }
 
@@ -450,7 +553,10 @@ void FileInfo::SharedCtor() {
   filename_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   tp_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  size_ = 0u;
+  time_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&size_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&fid_) -
+      reinterpret_cast<char*>(&size_)) + sizeof(fid_));
 }
 
 FileInfo::~FileInfo() {
@@ -462,6 +568,7 @@ void FileInfo::SharedDtor() {
   filename_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   tp_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  time_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void FileInfo::SetCachedSize(int size) const {
@@ -482,7 +589,10 @@ void FileInfo::Clear() {
   filename_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   path_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   tp_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  size_ = 0u;
+  time_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&size_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&fid_) -
+      reinterpret_cast<char*>(&size_)) + sizeof(fid_));
   _internal_metadata_.Clear();
 }
 
@@ -524,6 +634,29 @@ const char* FileInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           auto str = _internal_mutable_tp();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protos.FileInfo.tp"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string time = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          auto str = _internal_mutable_time();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protos.FileInfo.time"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 iflast = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          iflast_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 fid = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          fid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -589,6 +722,28 @@ failure:
         4, this->_internal_tp(), target);
   }
 
+  // string time = 5;
+  if (this->time().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_time().data(), static_cast<int>(this->_internal_time().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "protos.FileInfo.time");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_time(), target);
+  }
+
+  // uint32 iflast = 6;
+  if (this->iflast() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_iflast(), target);
+  }
+
+  // uint32 fid = 7;
+  if (this->fid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_fid(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -626,11 +781,32 @@ size_t FileInfo::ByteSizeLong() const {
         this->_internal_tp());
   }
 
+  // string time = 5;
+  if (this->time().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_time());
+  }
+
   // uint32 size = 3;
   if (this->size() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_size());
+  }
+
+  // uint32 iflast = 6;
+  if (this->iflast() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_iflast());
+  }
+
+  // uint32 fid = 7;
+  if (this->fid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_fid());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -676,8 +852,18 @@ void FileInfo::MergeFrom(const FileInfo& from) {
 
     tp_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.tp_);
   }
+  if (from.time().size() > 0) {
+
+    time_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.time_);
+  }
   if (from.size() != 0) {
     _internal_set_size(from._internal_size());
+  }
+  if (from.iflast() != 0) {
+    _internal_set_iflast(from._internal_iflast());
+  }
+  if (from.fid() != 0) {
+    _internal_set_fid(from._internal_fid());
   }
 }
 
@@ -708,7 +894,11 @@ void FileInfo::InternalSwap(FileInfo* other) {
     GetArenaNoVirtual());
   tp_.Swap(&other->tp_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  time_.Swap(&other->time_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(size_, other->size_);
+  swap(iflast_, other->iflast_);
+  swap(fid_, other->fid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata FileInfo::GetMetadata() const {
@@ -992,6 +1182,479 @@ void UserReq::InternalSwap(UserReq* other) {
 }
 
 
+// ===================================================================
+
+void FtpNode::InitAsDefaultInstance() {
+}
+class FtpNode::_Internal {
+ public:
+};
+
+FtpNode::FtpNode()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protos.FtpNode)
+}
+FtpNode::FtpNode(const FtpNode& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_ip().empty()) {
+    ip_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.ip_);
+  }
+  port_ = from.port_;
+  // @@protoc_insertion_point(copy_constructor:protos.FtpNode)
+}
+
+void FtpNode::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_FtpNode_userReq_2eproto.base);
+  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  port_ = 0u;
+}
+
+FtpNode::~FtpNode() {
+  // @@protoc_insertion_point(destructor:protos.FtpNode)
+  SharedDtor();
+}
+
+void FtpNode::SharedDtor() {
+  ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void FtpNode::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const FtpNode& FtpNode::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_FtpNode_userReq_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void FtpNode::Clear() {
+// @@protoc_insertion_point(message_clear_start:protos.FtpNode)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  port_ = 0u;
+  _internal_metadata_.Clear();
+}
+
+const char* FtpNode::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string ip = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_ip();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protos.FtpNode.ip"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 port = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* FtpNode::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protos.FtpNode)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string ip = 1;
+  if (this->ip().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "protos.FtpNode.ip");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_ip(), target);
+  }
+
+  // uint32 port = 2;
+  if (this->port() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_port(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protos.FtpNode)
+  return target;
+}
+
+size_t FtpNode::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protos.FtpNode)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string ip = 1;
+  if (this->ip().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ip());
+  }
+
+  // uint32 port = 2;
+  if (this->port() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_port());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void FtpNode::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protos.FtpNode)
+  GOOGLE_DCHECK_NE(&from, this);
+  const FtpNode* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<FtpNode>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protos.FtpNode)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protos.FtpNode)
+    MergeFrom(*source);
+  }
+}
+
+void FtpNode::MergeFrom(const FtpNode& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protos.FtpNode)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.ip().size() > 0) {
+
+    ip_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.ip_);
+  }
+  if (from.port() != 0) {
+    _internal_set_port(from._internal_port());
+  }
+}
+
+void FtpNode::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protos.FtpNode)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void FtpNode::CopyFrom(const FtpNode& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protos.FtpNode)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool FtpNode::IsInitialized() const {
+  return true;
+}
+
+void FtpNode::InternalSwap(FtpNode* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(port_, other->port_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata FtpNode::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void UserQury::InitAsDefaultInstance() {
+}
+class UserQury::_Internal {
+ public:
+};
+
+UserQury::UserQury()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protos.UserQury)
+}
+UserQury::UserQury(const UserQury& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      ftps_(from.ftps_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&tp_, &from.tp_,
+    static_cast<size_t>(reinterpret_cast<char*>(&success_) -
+    reinterpret_cast<char*>(&tp_)) + sizeof(success_));
+  // @@protoc_insertion_point(copy_constructor:protos.UserQury)
+}
+
+void UserQury::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserQury_userReq_2eproto.base);
+  ::memset(&tp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&success_) -
+      reinterpret_cast<char*>(&tp_)) + sizeof(success_));
+}
+
+UserQury::~UserQury() {
+  // @@protoc_insertion_point(destructor:protos.UserQury)
+  SharedDtor();
+}
+
+void UserQury::SharedDtor() {
+}
+
+void UserQury::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const UserQury& UserQury::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_UserQury_userReq_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void UserQury::Clear() {
+// @@protoc_insertion_point(message_clear_start:protos.UserQury)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ftps_.Clear();
+  ::memset(&tp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&success_) -
+      reinterpret_cast<char*>(&tp_)) + sizeof(success_));
+  _internal_metadata_.Clear();
+}
+
+const char* UserQury::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .protos.UserQury.Type tp = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+          _internal_set_tp(static_cast<::protos::UserQury_Type>(val));
+        } else goto handle_unusual;
+        continue;
+      // bool success = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .protos.FtpNode ftps = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_ftps(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* UserQury::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protos.UserQury)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .protos.UserQury.Type tp = 1;
+  if (this->tp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_tp(), target);
+  }
+
+  // bool success = 2;
+  if (this->success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_success(), target);
+  }
+
+  // repeated .protos.FtpNode ftps = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_ftps_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, this->_internal_ftps(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protos.UserQury)
+  return target;
+}
+
+size_t UserQury::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protos.UserQury)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .protos.FtpNode ftps = 5;
+  total_size += 1UL * this->_internal_ftps_size();
+  for (const auto& msg : this->ftps_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .protos.UserQury.Type tp = 1;
+  if (this->tp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_tp());
+  }
+
+  // bool success = 2;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void UserQury::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protos.UserQury)
+  GOOGLE_DCHECK_NE(&from, this);
+  const UserQury* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<UserQury>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protos.UserQury)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protos.UserQury)
+    MergeFrom(*source);
+  }
+}
+
+void UserQury::MergeFrom(const UserQury& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protos.UserQury)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  ftps_.MergeFrom(from.ftps_);
+  if (from.tp() != 0) {
+    _internal_set_tp(from._internal_tp());
+  }
+  if (from.success() != 0) {
+    _internal_set_success(from._internal_success());
+  }
+}
+
+void UserQury::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protos.UserQury)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void UserQury::CopyFrom(const UserQury& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protos.UserQury)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserQury::IsInitialized() const {
+  return true;
+}
+
+void UserQury::InternalSwap(UserQury* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  ftps_.InternalSwap(&other->ftps_);
+  swap(tp_, other->tp_);
+  swap(success_, other->success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UserQury::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace protos
 PROTOBUF_NAMESPACE_OPEN
@@ -1003,6 +1666,12 @@ template<> PROTOBUF_NOINLINE ::protos::FileInfo* Arena::CreateMaybeMessage< ::pr
 }
 template<> PROTOBUF_NOINLINE ::protos::UserReq* Arena::CreateMaybeMessage< ::protos::UserReq >(Arena* arena) {
   return Arena::CreateInternal< ::protos::UserReq >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protos::FtpNode* Arena::CreateMaybeMessage< ::protos::FtpNode >(Arena* arena) {
+  return Arena::CreateInternal< ::protos::FtpNode >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protos::UserQury* Arena::CreateMaybeMessage< ::protos::UserQury >(Arena* arena) {
+  return Arena::CreateInternal< ::protos::UserQury >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

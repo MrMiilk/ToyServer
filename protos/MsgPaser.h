@@ -10,6 +10,7 @@ namespace Parser {
 protos::UserReq parseUserMsg(const std::string& msg);
 
 protos::FtpQury parseFtpQury(const std::string& msg);
+protos::FtpReq parseFtpReq(const std::string& msg);
 
 template <typename T>
 std::string encode(const T& req) {
