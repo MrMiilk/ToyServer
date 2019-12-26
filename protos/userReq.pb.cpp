@@ -151,6 +151,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_userReq_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protos::FtpNode, ip_),
   PROTOBUF_FIELD_OFFSET(::protos::FtpNode, port_),
+  PROTOBUF_FIELD_OFFSET(::protos::FtpNode, nonce_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -165,7 +166,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 7, -1, sizeof(::protos::FileInfo)},
   { 19, -1, sizeof(::protos::UserReq)},
   { 27, -1, sizeof(::protos::FtpNode)},
-  { 34, -1, sizeof(::protos::UserQury)},
+  { 35, -1, sizeof(::protos::UserQury)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -186,12 +187,13 @@ const char descriptor_table_protodef_userReq_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\001(\0132\020.protos.UserInfo\022\"\n\010fileinfo\030\003 \001(\0132"
   "\020.protos.FileInfo\"_\n\005reqTp\022\n\n\006REGIST\020\000\022\t"
   "\n\005LOGIN\020\001\022\014\n\010DOENLOAD\020\002\022\n\n\006UPLOAD\020\003\022\t\n\005M"
-  "KDIR\020\004\022\013\n\007DELFILE\020\005\022\r\n\tDELFOLDER\020\006\"#\n\007Ft"
-  "pNode\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\"\223\001\n\010User"
-  "Qury\022!\n\002tp\030\001 \001(\0162\025.protos.UserQury.Type\022"
-  "\017\n\007success\030\002 \001(\010\022\035\n\004ftps\030\005 \003(\0132\017.protos."
-  "FtpNode\"4\n\004Type\022\n\n\006REGIST\020\000\022\t\n\005LOGIN\020\001\022\013"
-  "\n\007QURYFTP\020\004\022\010\n\004ELSE\020\005b\006proto3"
+  "KDIR\020\004\022\013\n\007DELFILE\020\005\022\r\n\tDELFOLDER\020\006\"2\n\007Ft"
+  "pNode\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\r\n\005nonce"
+  "\030\003 \001(\t\"\223\001\n\010UserQury\022!\n\002tp\030\001 \001(\0162\025.protos"
+  ".UserQury.Type\022\017\n\007success\030\002 \001(\010\022\035\n\004ftps\030"
+  "\005 \003(\0132\017.protos.FtpNode\"4\n\004Type\022\n\n\006REGIST"
+  "\020\000\022\t\n\005LOGIN\020\001\022\013\n\007QURYFTP\020\004\022\010\n\004ELSE\020\005b\006pr"
+  "oto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_userReq_2eproto_deps[1] = {
 };
@@ -205,7 +207,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_userReq_2eproto_once;
 static bool descriptor_table_userReq_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_userReq_2eproto = {
-  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 589,
+  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 604,
   &descriptor_table_userReq_2eproto_once, descriptor_table_userReq_2eproto_sccs, descriptor_table_userReq_2eproto_deps, 5, 0,
   schemas, file_default_instances, TableStruct_userReq_2eproto::offsets,
   file_level_metadata_userReq_2eproto, 5, file_level_enum_descriptors_userReq_2eproto, file_level_service_descriptors_userReq_2eproto,
@@ -1203,6 +1205,10 @@ FtpNode::FtpNode(const FtpNode& from)
   if (!from._internal_ip().empty()) {
     ip_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.ip_);
   }
+  nonce_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_nonce().empty()) {
+    nonce_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.nonce_);
+  }
   port_ = from.port_;
   // @@protoc_insertion_point(copy_constructor:protos.FtpNode)
 }
@@ -1210,6 +1216,7 @@ FtpNode::FtpNode(const FtpNode& from)
 void FtpNode::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_FtpNode_userReq_2eproto.base);
   ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  nonce_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   port_ = 0u;
 }
 
@@ -1220,6 +1227,7 @@ FtpNode::~FtpNode() {
 
 void FtpNode::SharedDtor() {
   ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  nonce_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void FtpNode::SetCachedSize(int size) const {
@@ -1238,6 +1246,7 @@ void FtpNode::Clear() {
   (void) cached_has_bits;
 
   ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  nonce_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   port_ = 0u;
   _internal_metadata_.Clear();
 }
@@ -1262,6 +1271,15 @@ const char* FtpNode::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string nonce = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_nonce();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protos.FtpNode.nonce"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1307,6 +1325,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_port(), target);
   }
 
+  // string nonce = 3;
+  if (this->nonce().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_nonce().data(), static_cast<int>(this->_internal_nonce().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "protos.FtpNode.nonce");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_nonce(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -1328,6 +1356,13 @@ size_t FtpNode::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip());
+  }
+
+  // string nonce = 3;
+  if (this->nonce().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_nonce());
   }
 
   // uint32 port = 2;
@@ -1372,6 +1407,10 @@ void FtpNode::MergeFrom(const FtpNode& from) {
 
     ip_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.ip_);
   }
+  if (from.nonce().size() > 0) {
+
+    nonce_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.nonce_);
+  }
   if (from.port() != 0) {
     _internal_set_port(from._internal_port());
   }
@@ -1399,6 +1438,8 @@ void FtpNode::InternalSwap(FtpNode* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   ip_.Swap(&other->ip_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  nonce_.Swap(&other->nonce_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(port_, other->port_);
 }

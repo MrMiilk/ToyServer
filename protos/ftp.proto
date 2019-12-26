@@ -10,6 +10,7 @@ package protos;
 
 message FtpUserInfo {
     string name = 1;
+    string nonce = 5;
 }
 
 // 上传下载使用 

@@ -824,6 +824,7 @@ class FtpNode :
 
   enum : int {
     kIpFieldNumber = 1,
+    kNonceFieldNumber = 3,
     kPortFieldNumber = 2,
   };
   // string ip = 1;
@@ -842,6 +843,22 @@ class FtpNode :
   std::string* _internal_mutable_ip();
   public:
 
+  // string nonce = 3;
+  void clear_nonce();
+  const std::string& nonce() const;
+  void set_nonce(const std::string& value);
+  void set_nonce(std::string&& value);
+  void set_nonce(const char* value);
+  void set_nonce(const char* value, size_t size);
+  std::string* mutable_nonce();
+  std::string* release_nonce();
+  void set_allocated_nonce(std::string* nonce);
+  private:
+  const std::string& _internal_nonce() const;
+  void _internal_set_nonce(const std::string& value);
+  std::string* _internal_mutable_nonce();
+  public:
+
   // uint32 port = 2;
   void clear_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 port() const;
@@ -857,6 +874,7 @@ class FtpNode :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nonce_;
   ::PROTOBUF_NAMESPACE_ID::uint32 port_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_userReq_2eproto;
@@ -1715,6 +1733,66 @@ inline void FtpNode::_internal_set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
 inline void FtpNode::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_port(value);
   // @@protoc_insertion_point(field_set:protos.FtpNode.port)
+}
+
+// string nonce = 3;
+inline void FtpNode::clear_nonce() {
+  nonce_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& FtpNode::nonce() const {
+  // @@protoc_insertion_point(field_get:protos.FtpNode.nonce)
+  return _internal_nonce();
+}
+inline void FtpNode::set_nonce(const std::string& value) {
+  _internal_set_nonce(value);
+  // @@protoc_insertion_point(field_set:protos.FtpNode.nonce)
+}
+inline std::string* FtpNode::mutable_nonce() {
+  // @@protoc_insertion_point(field_mutable:protos.FtpNode.nonce)
+  return _internal_mutable_nonce();
+}
+inline const std::string& FtpNode::_internal_nonce() const {
+  return nonce_.GetNoArena();
+}
+inline void FtpNode::_internal_set_nonce(const std::string& value) {
+  
+  nonce_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void FtpNode::set_nonce(std::string&& value) {
+  
+  nonce_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:protos.FtpNode.nonce)
+}
+inline void FtpNode::set_nonce(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  nonce_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protos.FtpNode.nonce)
+}
+inline void FtpNode::set_nonce(const char* value, size_t size) {
+  
+  nonce_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protos.FtpNode.nonce)
+}
+inline std::string* FtpNode::_internal_mutable_nonce() {
+  
+  return nonce_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* FtpNode::release_nonce() {
+  // @@protoc_insertion_point(field_release:protos.FtpNode.nonce)
+  
+  return nonce_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void FtpNode::set_allocated_nonce(std::string* nonce) {
+  if (nonce != nullptr) {
+    
+  } else {
+    
+  }
+  nonce_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), nonce);
+  // @@protoc_insertion_point(field_set_allocated:protos.FtpNode.nonce)
 }
 
 // -------------------------------------------------------------------

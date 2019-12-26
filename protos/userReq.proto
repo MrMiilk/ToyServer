@@ -42,6 +42,7 @@ message UserReq {
 message FtpNode {
     string ip = 1;
     uint32 port = 2;
+    string nonce = 3;
 }
 
 message UserQury {
