@@ -2,6 +2,7 @@
 #define TCPCONN_H_INCLUDED
 
 #include <memory>
+#include <functional>
 #include"thread/Queue.h"
 
 #define BUFSIZE 65535

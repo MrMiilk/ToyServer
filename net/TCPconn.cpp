@@ -77,9 +77,11 @@ void TCPconn::handle_wr() {
     if (sz == msg.size()) {
       // send all
       // call handler
-      disable_wr();
     } else {
       // 出错 或者部分发送
+    }
+    if(msgs_.empty()) {
+      disable_wr();
     }
   }
 }
