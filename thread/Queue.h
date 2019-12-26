@@ -15,9 +15,11 @@ class Queue {
   data_Tp_ get();
   data_Tp_ get_withlock();
   void put(data_Tp_);
+  //std::size_t size() const;
+  bool empty() const;
 
  private:
-  MutexLock mutex_;
+  mutable MutexLock mutex_;
   Condition cond_;
   std::queue<data_Tp_> queue_;
 };
@@ -51,4 +53,9 @@ void Queue<data_Tp_>::put(data_Tp_ d) {
   cond_.notify();
 }
 
+template <typename data_Tp_>
+bool Queue<data_Tp_>::empty() const {
+  MutexLockGuard lock(mutex_);
+  return queue_.empty();
+}
 #endif  // QUEUE_H_INCLUDED

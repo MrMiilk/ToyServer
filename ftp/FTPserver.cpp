@@ -59,13 +59,12 @@ void FTPserver::onReadble(TCPconn::conn_sptr_t ftp_cnn_sptr,
   // 处理连接关闭
   if (msg.size() == 0) {
     servers_.erase(ftp_cnn_sptr);
+    printf("a ftp disconnected...\n");
+    return;
   }
   // 来自ftp server 的消息
   // 解析数据报并处理
   protos::FtpReq req = Parser::parseFtpReq(msg);
-  if (req.tp() == protos::FtpReq::CONNECT) {
-    printf("ftp connected... \n");
-  }
   switch (req.tp()) {
     case protos::FtpReq::CONNECT:
       printf("ftp connected... \n");
@@ -74,6 +73,7 @@ void FTPserver::onReadble(TCPconn::conn_sptr_t ftp_cnn_sptr,
       printf("FIXME: delete from sql \n");
       break;
     default:
+      printf("FIXME: error request\n");
       break;
   }
 }
