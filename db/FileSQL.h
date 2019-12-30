@@ -14,10 +14,11 @@ class FileSQL {
     db_.useDB(db_name);
     db_.createUsrTab();
   };
-  ~FileSQL(){}
-  int addUsrFile(string filename, string username, string path, int size,
-                 string type, string time, int findex = 0,
-                 int iflast = 0)  // path是要插入的文件夹位置
+  ~FileSQL() {}
+  int addUsrFile(const string& filename, const string& username,
+                 const string& path, const int& size, const string& type,
+                 const string& time, const int& findex = 0,
+                 const int& iflast = 0)  // path是要插入的文件夹位置
   {
     int fid = db_.getFid(username, path);
     string Npath = path + filename;
@@ -40,13 +41,25 @@ class FileSQL {
     db_.deleteSubFolder(username, fid);
     return files;
   }
-  void deletUsrFile(string username, int fid)  // path是绝对路径
+  vector<int> getAssTable(const string& username) {
+    vector<vector<int>> temp(db_.getAssTable(username));
+    vector<int> ans;
+    for (auto i = temp.cbegin(); i != temp.cend(); i++) {
+      ans.insert(ans.end(), i->cbegin(), i->cend());
+      ans.insert(i->end(), -1);
+    }
+    return ans;
+  }
+  vector<MyDB::File> getFileTable(const string& username) {
+    return db_.getFileTable(username);
+  }
+  void deletUsrFile(const string& username, int fid)  // path是绝对路径
   {
     //这里需要返还fid
     db_.deleteUsrFile(username,
                       fid);  //需要通知ftp,删除文件，并从映射里解除文件
   };
-  bool FileExist(string username, int fid) {
+  bool FileExist(const string& username, int fid) {
     return db_.ifexistUsrFile(username, fid);
   }
 };

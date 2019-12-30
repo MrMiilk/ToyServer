@@ -45,6 +45,22 @@ message FtpNode {
     string nonce = 3;
 }
 
+message FolderInfo {
+    uint32  fid = 1;
+    string filename = 2;
+    string username = 3;
+    string path = 4;
+    uint32 findex = 5;
+    uint32 sz = 6;
+    string tp = 7;
+    string time = 8;
+    int32 iflast = 9;
+}
+
+message Table {
+    repeated int32 entry = 1;
+}
+
 message UserQury {
     enum Type{
         REGIST = 0;
@@ -55,4 +71,6 @@ message UserQury {
     Type tp = 1;
     bool success = 2;     // 是否成功
     repeated FtpNode ftps = 5;
+    repeated FolderInfo folder = 6;
+    Table fileTable = 7;
 }

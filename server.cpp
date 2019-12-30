@@ -124,6 +124,7 @@ void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   //   }
   // }
   try {
+    protos::UserQury query;
     if (!userSql.userExist(userReq.userinfo().name())) {
       conn_sptr->send("没有这个用户");
     } else {
@@ -131,7 +132,27 @@ void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
       if (userSql.getPwd(userReq.userinfo().name()).compare(passwd) == 0) {
         // FIXME: 返回序列化的两个表
-        conn_sptr->send("login success");
+        auto folders = fileSql.getFileTable(userReq.userinfo().name());
+        auto table = fileSql.getAssTable(userReq.userinfo().name());
+        for (const auto& f : folders) {
+          auto folder = query.add_folder();
+          folder->set_fid(f.fid);
+          folder->set_filename(f.filename);
+          folder->set_username(f.username);
+          folder->set_path(f.path);
+          folder->set_findex(f.findex);
+          folder->set_sz(f.size);
+          folder->set_tp(f.type);
+          folder->set_time(f.time);
+          folder->set_iflast(f.iflast);
+        }
+        auto qTb = query.mutable_filetable();
+        for (int f : table) {
+          qTb->add_entry(f);
+        }
+        query.set_tp(protos::UserQury::LOGIN);
+        query.set_success(true);
+        conn_sptr->send(Parser::encode(query));
       } else {
         conn_sptr->send("pwd error");
       }
