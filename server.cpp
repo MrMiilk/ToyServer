@@ -183,7 +183,7 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     // 回复客户端如何请求ftp
     protos::UserQury userQury;
     // construct msg
-    userQury.set_tp(protos::UserQury::QURYFTP);
+    userQury.set_tp(protos::UserQury::DOWNLOAD);
     for (const auto& addr : ftpAddrs) {
       auto ftps = userQury.add_ftps();
       ftps->set_ip(addr.first);
@@ -222,7 +222,7 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     // 回复客户端如何请求ftp
     protos::UserQury userQury;
     // construct msg
-    userQury.set_tp(protos::UserQury::QURYFTP);
+    userQury.set_tp(protos::UserQury::UPLOAD);
     for (const auto& addr : ftpAddrs) {
       auto ftps = userQury.add_ftps();
       ftps->set_ip(addr.first);
