@@ -188,6 +188,8 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       auto ftps = userQury.add_ftps();
       ftps->set_ip(addr.first);
       ftps->set_port(addr.second);
+      ftps->set_nonce(
+          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
     }
     conn_sptr->send(Parser::encode(userQury));
   } catch (std::exception e) {
