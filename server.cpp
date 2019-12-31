@@ -95,6 +95,7 @@ void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       // userReq.userinfo.name 作为根目录名
       userSql.addUser(userReq.userinfo().name(), passwd,
                       userReq.userinfo().name());
+      fileSql.addRootFolder(userReq.userinfo().name());
       conn_sptr->send("successful");
     } else {
       conn_sptr->send(std::move("user exist"));
@@ -132,8 +133,10 @@ void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
       if (userSql.getPwd(userReq.userinfo().name()).compare(passwd) == 0) {
         // FIXME: 返回序列化的两个表
+        // printf(">>> bef\n");
         auto folders = fileSql.getFileTable(userReq.userinfo().name());
         auto table = fileSql.getAssTable(userReq.userinfo().name());
+        // printf(">>>aft\n");
         for (const auto& f : folders) {
           auto folder = query.add_folder();
           folder->set_fid(f.fid);
@@ -194,6 +197,10 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
 
 // 数据库查询fid
 void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
+  std::string msg_;
+  userReq.SerializeToString(&msg_);
+  printf("filename: %s\n", userReq.fileinfo().filename().c_str());
+  printf("msg_: %s\n", msg_.c_str());
   try {
     // 数据库
     int fid = fileSql.addUsrFile(

@@ -15,7 +15,7 @@ void FTPserver::add(const std::vector<InetAddress>& ftp_addrs) {
     if (::connect(s_fd, sock_func::addr_in2addr(&addr), sizeof(addr)) != 0) {
       // perror
       printf("connect to ftp client error\n");
-      abort();
+      //abort();
     }
     TCPconn* tmp = new TCPconn(s_fd);
     tmp->regist(&ep_);
