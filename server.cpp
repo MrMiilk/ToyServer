@@ -171,7 +171,7 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     protos::FtpQury ftpQury;
     ftpQury.set_tp(protos::FtpQury::DOWNLOAD);
     ftpQury.set_key(
-        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
     auto f_info_ptr = ftpQury.mutable_fileinfo();
     f_info_ptr->set_name(userReq.fileinfo().filename());
     f_info_ptr->set_path(userReq.fileinfo().path());
@@ -189,7 +189,7 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       ftps->set_ip(addr.first);
       ftps->set_port(addr.second);
       ftps->set_nonce(
-          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
     }
     conn_sptr->send(Parser::encode(userQury));
   } catch (std::exception e) {
@@ -213,7 +213,7 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     protos::FtpQury ftpQury;
     ftpQury.set_tp(protos::FtpQury::UPLOAD);
     ftpQury.set_key(
-        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
     auto f_info_ptr = ftpQury.mutable_fileinfo();
     f_info_ptr->set_name(userReq.fileinfo().filename());
     f_info_ptr->set_path(userReq.fileinfo().path());
@@ -230,7 +230,7 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       ftps->set_ip(addr.first);
       ftps->set_port(addr.second);
       ftps->set_nonce(
-          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time()));
+          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
     }
     conn_sptr->send(Parser::encode(userQury));
   } catch (std::exception e) {
