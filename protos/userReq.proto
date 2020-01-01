@@ -66,8 +66,11 @@ message UserQury {
         REGIST = 0;
         LOGIN = 1;
         DOWNLOAD = 3;
-        UPLOAD = 4;    // 下载和请求ftp的node
-        ELSE = 5;       // 删除添加文件夹等是否成功
+        UPLOAD = 4;
+        MKDIR = 5;          // mkdir
+        DELFILE = 6;        // 删除文件
+        DELFOLDER = 7;
+        ELSE = 8;       // 删除添加文件夹等是否成功
     }
     Type tp = 1;
     bool success = 2;     // 是否成功

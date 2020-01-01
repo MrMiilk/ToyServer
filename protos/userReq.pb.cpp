@@ -260,13 +260,14 @@ const char descriptor_table_protodef_userReq_2eproto[] PROTOBUF_SECTION_VARIABLE
   "lename\030\002 \001(\t\022\020\n\010username\030\003 \001(\t\022\014\n\004path\030\004"
   " \001(\t\022\016\n\006findex\030\005 \001(\r\022\n\n\002sz\030\006 \001(\r\022\n\n\002tp\030\007"
   " \001(\t\022\014\n\004time\030\010 \001(\t\022\016\n\006iflast\030\t \001(\005\"\026\n\005Ta"
-  "ble\022\r\n\005entry\030\001 \003(\005\"\363\001\n\010UserQury\022!\n\002tp\030\001 "
+  "ble\022\r\n\005entry\030\001 \003(\005\"\232\002\n\010UserQury\022!\n\002tp\030\001 "
   "\001(\0162\025.protos.UserQury.Type\022\017\n\007success\030\002 "
   "\001(\010\022\013\n\003fid\030\003 \001(\005\022\035\n\004ftps\030\005 \003(\0132\017.protos."
   "FtpNode\022\"\n\006folder\030\006 \003(\0132\022.protos.FolderI"
-  "nfo\022 \n\tfileTable\030\007 \001(\0132\r.protos.Table\"A\n"
+  "nfo\022 \n\tfileTable\030\007 \001(\0132\r.protos.Table\"h\n"
   "\004Type\022\n\n\006REGIST\020\000\022\t\n\005LOGIN\020\001\022\014\n\010DOWNLOAD"
-  "\020\003\022\n\n\006UPLOAD\020\004\022\010\n\004ELSE\020\005b\006proto3"
+  "\020\003\022\n\n\006UPLOAD\020\004\022\t\n\005MKDIR\020\005\022\013\n\007DELFILE\020\006\022\r"
+  "\n\tDELFOLDER\020\007\022\010\n\004ELSE\020\010b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_userReq_2eproto_deps[1] = {
 };
@@ -282,7 +283,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_userReq_2eproto_once;
 static bool descriptor_table_userReq_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_userReq_2eproto = {
-  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 872,
+  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 911,
   &descriptor_table_userReq_2eproto_once, descriptor_table_userReq_2eproto_sccs, descriptor_table_userReq_2eproto_deps, 7, 0,
   schemas, file_default_instances, TableStruct_userReq_2eproto::offsets,
   file_level_metadata_userReq_2eproto, 7, file_level_enum_descriptors_userReq_2eproto, file_level_service_descriptors_userReq_2eproto,
@@ -333,6 +334,9 @@ bool UserQury_Type_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+    case 6:
+    case 7:
+    case 8:
       return true;
     default:
       return false;
@@ -344,6 +348,9 @@ constexpr UserQury_Type UserQury::REGIST;
 constexpr UserQury_Type UserQury::LOGIN;
 constexpr UserQury_Type UserQury::DOWNLOAD;
 constexpr UserQury_Type UserQury::UPLOAD;
+constexpr UserQury_Type UserQury::MKDIR;
+constexpr UserQury_Type UserQury::DELFILE;
+constexpr UserQury_Type UserQury::DELFOLDER;
 constexpr UserQury_Type UserQury::ELSE;
 constexpr UserQury_Type UserQury::Type_MIN;
 constexpr UserQury_Type UserQury::Type_MAX;

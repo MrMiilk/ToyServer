@@ -124,7 +124,10 @@ enum UserQury_Type : int {
   UserQury_Type_LOGIN = 1,
   UserQury_Type_DOWNLOAD = 3,
   UserQury_Type_UPLOAD = 4,
-  UserQury_Type_ELSE = 5,
+  UserQury_Type_MKDIR = 5,
+  UserQury_Type_DELFILE = 6,
+  UserQury_Type_DELFOLDER = 7,
+  UserQury_Type_ELSE = 8,
   UserQury_Type_UserQury_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   UserQury_Type_UserQury_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
@@ -1395,6 +1398,12 @@ class UserQury :
     UserQury_Type_DOWNLOAD;
   static constexpr Type UPLOAD =
     UserQury_Type_UPLOAD;
+  static constexpr Type MKDIR =
+    UserQury_Type_MKDIR;
+  static constexpr Type DELFILE =
+    UserQury_Type_DELFILE;
+  static constexpr Type DELFOLDER =
+    UserQury_Type_DELFOLDER;
   static constexpr Type ELSE =
     UserQury_Type_ELSE;
   static inline bool Type_IsValid(int value) {

@@ -252,7 +252,7 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
 void cli_mkdir(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   // 数据库添加folder
   protos::UserQury userQury;
-  userQury.set_tp(protos::UserQury::ELSE);
+  userQury.set_tp(protos::UserQury::MKDIR);
   try {
     fileSql.addFolder(userReq.fileinfo().filename(), userReq.userinfo().name(),
                       userReq.fileinfo().path());
@@ -267,7 +267,7 @@ void cli_mkdir(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
 
 void cli_delFile(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   protos::UserQury userQury;
-  userQury.set_tp(protos::UserQury::ELSE);
+  userQury.set_tp(protos::UserQury::DELFILE);
   try {
     // 数据库删除
     fileSql.deletUsrFile(userReq.userinfo().name(), userReq.fileinfo().fid());
@@ -288,7 +288,7 @@ void cli_delFile(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
 void cli_del_Folder(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   protos::UserQury userQury;
   protos::FtpQury ftpQury;
-  userQury.set_tp(protos::UserQury::ELSE);
+  userQury.set_tp(protos::UserQury::DELFOLDER);
   try {
     auto file2del = fileSql.deletFolder(userReq.fileinfo().filename(),
                                         userReq.fileinfo().fid());
