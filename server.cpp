@@ -89,6 +89,8 @@ void accept_cli(TCPconn_sptr_t server_ptr) {
 
 void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   try {
+    protos::UserQury query;
+    query.set_tp(protos::UserQury::REGIST);
     if (!userSql.userExist(userReq.userinfo().name())) {
       // 解密
       std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
@@ -96,9 +98,11 @@ void cli_regist(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       userSql.addUser(userReq.userinfo().name(), passwd,
                       userReq.userinfo().name());
       fileSql.addRootFolder(userReq.userinfo().name());
-      conn_sptr->send("successful");
+      query.set_success(true);
+      conn_sptr->send(Parser::encode(query));
     } else {
-      conn_sptr->send(std::move("user exist"));
+      query.set_success(false);
+      conn_sptr->send(Parser::encode(query));
     }
   } catch (std::exception e) {
     printf("cli_upload fail, %s\n", e.what());
@@ -127,7 +131,9 @@ void cli_login(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
   try {
     protos::UserQury query;
     if (!userSql.userExist(userReq.userinfo().name())) {
-      conn_sptr->send("没有这个用户");
+      query.set_tp(protos::UserQury::LOGIN);
+      query.set_success(false);
+      conn_sptr->send(Parser::encode(query));
     } else {
       // 解密
       std::string passwd(rsaDecoder.decode(userReq.userinfo().passwd()));
@@ -170,8 +176,9 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     // 通知ftp
     protos::FtpQury ftpQury;
     ftpQury.set_tp(protos::FtpQury::DOWNLOAD);
-    ftpQury.set_key(
-        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
+    ftpQury.set_key(encrypt_::MD5(userReq.userinfo().name() +
+                                  userReq.fileinfo().time() +
+                                  userReq.fileinfo().filename()));
     auto f_info_ptr = ftpQury.mutable_fileinfo();
     f_info_ptr->set_name(userReq.fileinfo().filename());
     f_info_ptr->set_path(userReq.fileinfo().path());
@@ -188,8 +195,9 @@ void cli_download(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
       auto ftps = userQury.add_ftps();
       ftps->set_ip(addr.first);
       ftps->set_port(addr.second);
-      ftps->set_nonce(
-          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
+      ftps->set_nonce(encrypt_::MD5(userReq.userinfo().name() +
+                                    userReq.fileinfo().time() +
+                                    userReq.fileinfo().filename()));
     }
     conn_sptr->send(Parser::encode(userQury));
   } catch (std::exception e) {
@@ -212,8 +220,9 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     // 通知ftp
     protos::FtpQury ftpQury;
     ftpQury.set_tp(protos::FtpQury::UPLOAD);
-    ftpQury.set_key(
-        encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
+    ftpQury.set_key(encrypt_::MD5(userReq.userinfo().name() +
+                                  userReq.fileinfo().time() +
+                                  userReq.fileinfo().filename()));
     auto f_info_ptr = ftpQury.mutable_fileinfo();
     f_info_ptr->set_name(userReq.fileinfo().filename());
     f_info_ptr->set_path(userReq.fileinfo().path());
@@ -225,12 +234,14 @@ void cli_upload(TCPconn_sptr_t conn_sptr, const protos::UserReq& userReq) {
     protos::UserQury userQury;
     // construct msg
     userQury.set_tp(protos::UserQury::UPLOAD);
+    userQury.set_fid(fid);
     for (const auto& addr : ftpAddrs) {
       auto ftps = userQury.add_ftps();
       ftps->set_ip(addr.first);
       ftps->set_port(addr.second);
-      ftps->set_nonce(
-          encrypt_::MD5(userReq.userinfo().name() + userReq.fileinfo().time() + userReq.fileinfo().filename()));
+      ftps->set_nonce(encrypt_::MD5(userReq.userinfo().name() +
+                                    userReq.fileinfo().time() +
+                                    userReq.fileinfo().filename()));
     }
     conn_sptr->send(Parser::encode(userQury));
   } catch (std::exception e) {

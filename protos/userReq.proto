@@ -25,7 +25,7 @@ message UserReq {
     enum reqTp {
         REGIST = 0;
         LOGIN = 1;
-        DOENLOAD = 2;       // 下载文件
+        DOWNLOAD = 2;       // 下载文件
         UPLOAD = 3;         // 上传文件
         MKDIR = 4;          // mkdir
         DELFILE = 5;        // 删除文件
@@ -71,6 +71,7 @@ message UserQury {
     }
     Type tp = 1;
     bool success = 2;     // 是否成功
+    int32 fid = 3;
     repeated FtpNode ftps = 5;
     repeated FolderInfo folder = 6;
     Table fileTable = 7;

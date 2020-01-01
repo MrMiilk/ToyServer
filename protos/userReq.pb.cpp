@@ -219,6 +219,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_userReq_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, tp_),
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, success_),
+  PROTOBUF_FIELD_OFFSET(::protos::UserQury, fid_),
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, ftps_),
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, folder_),
   PROTOBUF_FIELD_OFFSET(::protos::UserQury, filetable_),
@@ -252,20 +253,20 @@ const char descriptor_table_protodef_userReq_2eproto[] PROTOBUF_SECTION_VARIABLE
   "(\0162\025.protos.UserReq.reqTp\022\"\n\010userInfo\030\002 "
   "\001(\0132\020.protos.UserInfo\022\"\n\010fileinfo\030\003 \001(\0132"
   "\020.protos.FileInfo\"_\n\005reqTp\022\n\n\006REGIST\020\000\022\t"
-  "\n\005LOGIN\020\001\022\014\n\010DOENLOAD\020\002\022\n\n\006UPLOAD\020\003\022\t\n\005M"
+  "\n\005LOGIN\020\001\022\014\n\010DOWNLOAD\020\002\022\n\n\006UPLOAD\020\003\022\t\n\005M"
   "KDIR\020\004\022\013\n\007DELFILE\020\005\022\r\n\tDELFOLDER\020\006\"2\n\007Ft"
   "pNode\022\n\n\002ip\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\r\n\005nonce"
   "\030\003 \001(\t\"\221\001\n\nFolderInfo\022\013\n\003fid\030\001 \001(\r\022\020\n\010fi"
   "lename\030\002 \001(\t\022\020\n\010username\030\003 \001(\t\022\014\n\004path\030\004"
   " \001(\t\022\016\n\006findex\030\005 \001(\r\022\n\n\002sz\030\006 \001(\r\022\n\n\002tp\030\007"
   " \001(\t\022\014\n\004time\030\010 \001(\t\022\016\n\006iflast\030\t \001(\005\"\026\n\005Ta"
-  "ble\022\r\n\005entry\030\001 \003(\005\"\346\001\n\010UserQury\022!\n\002tp\030\001 "
+  "ble\022\r\n\005entry\030\001 \003(\005\"\363\001\n\010UserQury\022!\n\002tp\030\001 "
   "\001(\0162\025.protos.UserQury.Type\022\017\n\007success\030\002 "
-  "\001(\010\022\035\n\004ftps\030\005 \003(\0132\017.protos.FtpNode\022\"\n\006fo"
-  "lder\030\006 \003(\0132\022.protos.FolderInfo\022 \n\tfileTa"
-  "ble\030\007 \001(\0132\r.protos.Table\"A\n\004Type\022\n\n\006REGI"
-  "ST\020\000\022\t\n\005LOGIN\020\001\022\014\n\010DOWNLOAD\020\003\022\n\n\006UPLOAD\020"
-  "\004\022\010\n\004ELSE\020\005b\006proto3"
+  "\001(\010\022\013\n\003fid\030\003 \001(\005\022\035\n\004ftps\030\005 \003(\0132\017.protos."
+  "FtpNode\022\"\n\006folder\030\006 \003(\0132\022.protos.FolderI"
+  "nfo\022 \n\tfileTable\030\007 \001(\0132\r.protos.Table\"A\n"
+  "\004Type\022\n\n\006REGIST\020\000\022\t\n\005LOGIN\020\001\022\014\n\010DOWNLOAD"
+  "\020\003\022\n\n\006UPLOAD\020\004\022\010\n\004ELSE\020\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_userReq_2eproto_deps[1] = {
 };
@@ -281,7 +282,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_use
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_userReq_2eproto_once;
 static bool descriptor_table_userReq_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_userReq_2eproto = {
-  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 859,
+  &descriptor_table_userReq_2eproto_initialized, descriptor_table_protodef_userReq_2eproto, "userReq.proto", 872,
   &descriptor_table_userReq_2eproto_once, descriptor_table_userReq_2eproto_sccs, descriptor_table_userReq_2eproto_deps, 7, 0,
   schemas, file_default_instances, TableStruct_userReq_2eproto::offsets,
   file_level_metadata_userReq_2eproto, 7, file_level_enum_descriptors_userReq_2eproto, file_level_service_descriptors_userReq_2eproto,
@@ -312,7 +313,7 @@ bool UserReq_reqTp_IsValid(int value) {
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 constexpr UserReq_reqTp UserReq::REGIST;
 constexpr UserReq_reqTp UserReq::LOGIN;
-constexpr UserReq_reqTp UserReq::DOENLOAD;
+constexpr UserReq_reqTp UserReq::DOWNLOAD;
 constexpr UserReq_reqTp UserReq::UPLOAD;
 constexpr UserReq_reqTp UserReq::MKDIR;
 constexpr UserReq_reqTp UserReq::DELFILE;
@@ -2214,16 +2215,16 @@ UserQury::UserQury(const UserQury& from)
     filetable_ = nullptr;
   }
   ::memcpy(&tp_, &from.tp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&success_) -
-    reinterpret_cast<char*>(&tp_)) + sizeof(success_));
+    static_cast<size_t>(reinterpret_cast<char*>(&fid_) -
+    reinterpret_cast<char*>(&tp_)) + sizeof(fid_));
   // @@protoc_insertion_point(copy_constructor:protos.UserQury)
 }
 
 void UserQury::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_UserQury_userReq_2eproto.base);
   ::memset(&filetable_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&success_) -
-      reinterpret_cast<char*>(&filetable_)) + sizeof(success_));
+      reinterpret_cast<char*>(&fid_) -
+      reinterpret_cast<char*>(&filetable_)) + sizeof(fid_));
 }
 
 UserQury::~UserQury() {
@@ -2257,8 +2258,8 @@ void UserQury::Clear() {
   }
   filetable_ = nullptr;
   ::memset(&tp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&success_) -
-      reinterpret_cast<char*>(&tp_)) + sizeof(success_));
+      reinterpret_cast<char*>(&fid_) -
+      reinterpret_cast<char*>(&tp_)) + sizeof(fid_));
   _internal_metadata_.Clear();
 }
 
@@ -2281,6 +2282,13 @@ const char* UserQury::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 fid = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          fid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2352,6 +2360,12 @@ failure:
   if (this->success() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_success(), target);
+  }
+
+  // int32 fid = 3;
+  if (this->fid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_fid(), target);
   }
 
   // repeated .protos.FtpNode ftps = 5;
@@ -2426,6 +2440,13 @@ size_t UserQury::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // int32 fid = 3;
+  if (this->fid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_fid());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -2468,6 +2489,9 @@ void UserQury::MergeFrom(const UserQury& from) {
   if (from.success() != 0) {
     _internal_set_success(from._internal_success());
   }
+  if (from.fid() != 0) {
+    _internal_set_fid(from._internal_fid());
+  }
 }
 
 void UserQury::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2496,6 +2520,7 @@ void UserQury::InternalSwap(UserQury* other) {
   swap(filetable_, other->filetable_);
   swap(tp_, other->tp_);
   swap(success_, other->success_);
+  swap(fid_, other->fid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserQury::GetMetadata() const {

@@ -92,7 +92,7 @@ namespace protos {
 enum UserReq_reqTp : int {
   UserReq_reqTp_REGIST = 0,
   UserReq_reqTp_LOGIN = 1,
-  UserReq_reqTp_DOENLOAD = 2,
+  UserReq_reqTp_DOWNLOAD = 2,
   UserReq_reqTp_UPLOAD = 3,
   UserReq_reqTp_MKDIR = 4,
   UserReq_reqTp_DELFILE = 5,
@@ -632,8 +632,8 @@ class UserReq :
     UserReq_reqTp_REGIST;
   static constexpr reqTp LOGIN =
     UserReq_reqTp_LOGIN;
-  static constexpr reqTp DOENLOAD =
-    UserReq_reqTp_DOENLOAD;
+  static constexpr reqTp DOWNLOAD =
+    UserReq_reqTp_DOWNLOAD;
   static constexpr reqTp UPLOAD =
     UserReq_reqTp_UPLOAD;
   static constexpr reqTp MKDIR =
@@ -1430,6 +1430,7 @@ class UserQury :
     kFileTableFieldNumber = 7,
     kTpFieldNumber = 1,
     kSuccessFieldNumber = 2,
+    kFidFieldNumber = 3,
   };
   // repeated .protos.FtpNode ftps = 5;
   int ftps_size() const;
@@ -1500,6 +1501,15 @@ class UserQury :
   void _internal_set_success(bool value);
   public:
 
+  // int32 fid = 3;
+  void clear_fid();
+  ::PROTOBUF_NAMESPACE_ID::int32 fid() const;
+  void set_fid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_fid() const;
+  void _internal_set_fid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protos.UserQury)
  private:
   class _Internal;
@@ -1510,6 +1520,7 @@ class UserQury :
   ::protos::Table* filetable_;
   int tp_;
   bool success_;
+  ::PROTOBUF_NAMESPACE_ID::int32 fid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_userReq_2eproto;
 };
@@ -2713,6 +2724,26 @@ inline void UserQury::_internal_set_success(bool value) {
 inline void UserQury::set_success(bool value) {
   _internal_set_success(value);
   // @@protoc_insertion_point(field_set:protos.UserQury.success)
+}
+
+// int32 fid = 3;
+inline void UserQury::clear_fid() {
+  fid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserQury::_internal_fid() const {
+  return fid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserQury::fid() const {
+  // @@protoc_insertion_point(field_get:protos.UserQury.fid)
+  return _internal_fid();
+}
+inline void UserQury::_internal_set_fid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  fid_ = value;
+}
+inline void UserQury::set_fid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_fid(value);
+  // @@protoc_insertion_point(field_set:protos.UserQury.fid)
 }
 
 // repeated .protos.FtpNode ftps = 5;
